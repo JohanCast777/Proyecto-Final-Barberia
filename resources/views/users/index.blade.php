@@ -1,1 +1,1 @@
-<h1>This is a test of the user</h1>
+<h1>This is the user profile</h1>

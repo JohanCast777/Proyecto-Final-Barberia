@@ -35,4 +35,17 @@ class Score extends Model
     {
         return $this->belongsTo(Appointment::class, 'appointment_id', 'appointment_id');
     }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id', 'user_id');
+    }
+
+    /**
+     * Relación con el barbero.
+     */
+    public function barber()
+    {
+        return $this->belongsTo(Barber::class, 'barber_id', 'barber_id');
+    }
 }

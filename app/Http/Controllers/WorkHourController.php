@@ -14,7 +14,7 @@ class WorkHourController extends Controller
     public function index()
     {
         $workHours = WorkHour::with('barber')->get(); // Obtén todos los horarios de trabajo con relación al barbero
-        return view('work-hours.index', compact('workHours')); // Pasa los datos a la vista
+        return view('workhours.index', compact('workHours')); // Pasa los datos a la vista
     }
 
     /**
@@ -23,7 +23,7 @@ class WorkHourController extends Controller
     public function create()
     {
         $barbers = Barber::all(); // Obtén todos los barberos
-        return view('work-hours.create', compact('barbers')); // Pasa los datos a la vista
+        return view('workhours.create', compact('barbers')); // Pasa los datos a la vista
     }
 
     /**
@@ -40,7 +40,7 @@ class WorkHourController extends Controller
 
         WorkHour::create($validated);
 
-        return redirect()->route('work-hours.index')->with('success', 'Work hour created successfully.');
+        return redirect()->route('workhours.index')->with('success', 'Work hour created successfully.');
     }
 
     /**
@@ -49,7 +49,7 @@ class WorkHourController extends Controller
     public function show(string $id)
     {
         $workHour = WorkHour::with('barber')->findOrFail($id); // Busca el horario de trabajo con relación al barbero
-        return view('work-hours.show', compact('workHour')); // Pasa los datos a la vista
+        return view('workhours.show', compact('workHour')); // Pasa los datos a la vista
     }
 
     /**
@@ -59,7 +59,7 @@ class WorkHourController extends Controller
     {
         $workHour = WorkHour::findOrFail($id); // Busca el horario de trabajo por ID
         $barbers = Barber::all(); // Obtén todos los barberos
-        return view('work-hours.edit', compact('workHour', 'barbers')); // Pasa los datos a la vista
+        return view('workhours.edit', compact('workHour', 'barbers')); // Pasa los datos a la vista
     }
 
     /**
@@ -77,7 +77,7 @@ class WorkHourController extends Controller
         $workHour = WorkHour::findOrFail($id);
         $workHour->update($validated);
 
-        return redirect()->route('work-hours.index')->with('success', 'Work hour updated successfully.');
+        return redirect()->route('workhours.index')->with('success', 'Work hour updated successfully.');
     }
 
     /**
@@ -88,6 +88,6 @@ class WorkHourController extends Controller
         $workHour = WorkHour::findOrFail($id);
         $workHour->delete();
 
-        return redirect()->route('work-hours.index')->with('success', 'Work hour deleted successfully.');
+        return redirect()->route('workhours.index')->with('success', 'Work hour deleted successfully.');
     }
 }

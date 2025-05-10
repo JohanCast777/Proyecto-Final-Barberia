@@ -1,0 +1,1 @@
+<h1>This is the barber profile</h1>
