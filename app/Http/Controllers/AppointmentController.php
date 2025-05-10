@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Appointment; // Importa el modelo Appointment
+use App\Models\User; // Importa el modelo User
+use App\Models\Barber; // Importa el modelo Barber
+use App\Models\Service; // Importa el modelo Service
 
 class AppointmentController extends Controller
 {
@@ -11,7 +15,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::with(['client', 'barber', 'service'])->get(); // Obtén todas las citas con relaciones
+        return view('appointments.index', compact('appointments')); // Pasa los datos a la vista
     }
 
     /**
@@ -19,7 +24,10 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        $clients = User::where('role', 'client')->get(); // Obtén todos los clientes
+        $barbers = Barber::all(); // Obtén todos los barberos
+        $services = Service::all(); // Obtén todos los servicios
+        return view('appointments.create', compact('clients', 'barbers', 'services')); // Pasa los datos a la vista
     }
 
     /**
@@ -27,7 +35,19 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'client_id' => 'required|exists:users,user_id',
+            'barber_id' => 'required|exists:barbers,barber_id',
+            'service_id' => 'required|exists:services,service_id',
+            'scheduled_at' => 'required|date|after:now',
+            'estimated_duration' => 'required|integer|min:1',
+            'status' => 'required|in:pending,confirmed,completed,cancelled,no_show',
+            'notes' => 'nullable|string',
+        ]);
+
+        Appointment::create($validated);
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
     }
 
     /**
@@ -35,7 +55,8 @@ class AppointmentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $appointment = Appointment::with(['client', 'barber', 'service'])->findOrFail($id); // Busca la cita con relaciones
+        return view('appointments.show', compact('appointment')); // Pasa los datos a la vista
     }
 
     /**
@@ -43,7 +64,11 @@ class AppointmentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $appointment = Appointment::findOrFail($id); // Busca la cita por ID
+        $clients = User::where('role', 'client')->get(); // Obtén todos los clientes
+        $barbers = Barber::all(); // Obtén todos los barberos
+        $services = Service::all(); // Obtén todos los servicios
+        return view('appointments.edit', compact('appointment', 'clients', 'barbers', 'services')); // Pasa los datos a la vista
     }
 
     /**
@@ -51,7 +76,20 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'client_id' => 'required|exists:users,user_id',
+            'barber_id' => 'required|exists:barbers,barber_id',
+            'service_id' => 'required|exists:services,service_id',
+            'scheduled_at' => 'required|date|after:now',
+            'estimated_duration' => 'required|integer|min:1',
+            'status' => 'required|in:pending,confirmed,completed,cancelled,no_show',
+            'notes' => 'nullable|string',
+        ]);
+
+        $appointment = Appointment::findOrFail($id);
+        $appointment->update($validated);
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
     }
 
     /**
@@ -59,6 +97,9 @@ class AppointmentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $appointment = Appointment::findOrFail($id);
+        $appointment->delete();
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully.');
     }
 }

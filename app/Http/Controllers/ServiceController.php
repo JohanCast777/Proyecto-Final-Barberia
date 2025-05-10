@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Service; // Importa el modelo Service
 
 class ServiceController extends Controller
 {
@@ -11,7 +12,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = Service::all(); // Obtén todos los servicios
+        return view('services.index', compact('services')); // Pasa los datos a la vista
     }
 
     /**
@@ -19,7 +21,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        return view('services.create'); // Muestra el formulario para crear un servicio
     }
 
     /**
@@ -27,7 +29,18 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'duration_minutes' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|max:2048',
+            'active' => 'required|boolean',
+        ]);
+
+        Service::create($validated);
+
+        return redirect()->route('services.index')->with('success', 'Service created successfully.');
     }
 
     /**
@@ -35,7 +48,8 @@ class ServiceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $service = Service::findOrFail($id); // Busca el servicio por ID
+        return view('services.show', compact('service')); // Pasa los datos a la vista
     }
 
     /**
@@ -43,7 +57,8 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $service = Service::findOrFail($id); // Busca el servicio por ID
+        return view('services.edit', compact('service')); // Pasa los datos a la vista
     }
 
     /**
@@ -51,7 +66,19 @@ class ServiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'duration_minutes' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|max:2048',
+            'active' => 'required|boolean',
+        ]);
+
+        $service = Service::findOrFail($id);
+        $service->update($validated);
+
+        return redirect()->route('services.index')->with('success', 'Service updated successfully.');
     }
 
     /**
@@ -59,6 +86,9 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        $service->delete();
+
+        return redirect()->route('services.index')->with('success', 'Service deleted successfully.');
     }
 }

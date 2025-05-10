@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\NonWorkingDay; // Importa el modelo NonWorkingDay
+use App\Models\Barber; // Importa el modelo Barber
 
 class NonWorkingDayController extends Controller
 {
@@ -11,7 +13,8 @@ class NonWorkingDayController extends Controller
      */
     public function index()
     {
-        //
+        $nonWorkingDays = NonWorkingDay::with('barber')->get(); // Obtén todos los días no laborales con relación al barbero
+        return view('non-working-days.index', compact('nonWorkingDays')); // Pasa los datos a la vista
     }
 
     /**
@@ -19,7 +22,8 @@ class NonWorkingDayController extends Controller
      */
     public function create()
     {
-        //
+        $barbers = Barber::all(); // Obtén todos los barberos
+        return view('non-working-days.create', compact('barbers')); // Pasa los datos a la vista
     }
 
     /**
@@ -27,7 +31,15 @@ class NonWorkingDayController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'barber_id' => 'required|exists:barbers,barber_id',
+            'date' => 'required|date|after_or_equal:today',
+            'reason' => 'nullable|string|max:255',
+        ]);
+
+        NonWorkingDay::create($validated);
+
+        return redirect()->route('non-working-days.index')->with('success', 'Non-working day created successfully.');
     }
 
     /**
@@ -35,7 +47,8 @@ class NonWorkingDayController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $nonWorkingDay = NonWorkingDay::with('barber')->findOrFail($id); // Busca el día no laboral con relación al barbero
+        return view('non-working-days.show', compact('nonWorkingDay')); // Pasa los datos a la vista
     }
 
     /**
@@ -43,7 +56,9 @@ class NonWorkingDayController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $nonWorkingDay = NonWorkingDay::findOrFail($id); // Busca el día no laboral por ID
+        $barbers = Barber::all(); // Obtén todos los barberos
+        return view('non-working-days.edit', compact('nonWorkingDay', 'barbers')); // Pasa los datos a la vista
     }
 
     /**
@@ -51,7 +66,16 @@ class NonWorkingDayController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'barber_id' => 'required|exists:barbers,barber_id',
+            'date' => 'required|date|after_or_equal:today',
+            'reason' => 'nullable|string|max:255',
+        ]);
+
+        $nonWorkingDay = NonWorkingDay::findOrFail($id);
+        $nonWorkingDay->update($validated);
+
+        return redirect()->route('non-working-days.index')->with('success', 'Non-working day updated successfully.');
     }
 
     /**
@@ -59,6 +83,9 @@ class NonWorkingDayController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $nonWorkingDay = NonWorkingDay::findOrFail($id);
+        $nonWorkingDay->delete();
+
+        return redirect()->route('non-working-days.index')->with('success', 'Non-working day deleted successfully.');
     }
 }
