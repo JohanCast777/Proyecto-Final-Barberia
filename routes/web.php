@@ -5,9 +5,9 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', function (){return view('Login');})->name('Login');
+
+Route::get('/SignUp', function (){return view('Signup');})->name('Signup');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -34,6 +34,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\PromotionController;
 
+
 Route::resource('users', UserController::class);
 Route::resource('barbers', BarberController::class);
 Route::resource('services', ServiceController::class);
@@ -43,3 +44,5 @@ Route::resource('appointments', AppointmentController::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('scores', ScoreController::class);
 Route::resource('promotions', PromotionController::class);
+
+
