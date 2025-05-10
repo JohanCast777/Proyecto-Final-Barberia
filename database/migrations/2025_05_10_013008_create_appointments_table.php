@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('estimated_duration');
             $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled', 'no_show'])->default('pending');
             $table->text('notes')->nullable();
-            $table->timestamp('created_at')->useCurrent();
             $table->foreign('client_id')->references('user_id')->on('users');
             $table->foreign('barber_id')->references('barber_id')->on('barbers');
             $table->foreign('service_id')->references('service_id')->on('services');
