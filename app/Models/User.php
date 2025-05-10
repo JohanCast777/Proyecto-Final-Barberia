@@ -19,9 +19,14 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
         'password',
+        'role',
+        'registered_at',
+        'active',
     ];
 
     /**
@@ -42,7 +47,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'registered_at' => 'datetime',
+            'active' => 'boolean',
             'password' => 'hashed',
         ];
     }
@@ -57,4 +63,13 @@ class User extends Authenticatable
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
+    public function barber()
+        {
+            return $this->hasOne(Barber::class, 'user_id', 'user_id');
+        }
+        public function appointments()
+        {
+            return $this->hasMany(Appointment::class, 'client_id', 'user_id');
+        }
+
 }
