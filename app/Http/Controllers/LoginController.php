@@ -23,7 +23,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             // Redirigir al dashboard
-            return redirect()->route('users.index');
+            return redirect()->route('user.index');
         }
         
 

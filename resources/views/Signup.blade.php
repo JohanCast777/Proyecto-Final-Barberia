@@ -170,7 +170,7 @@
       <p>Regístrate para acceder a todas las funcionalidades de nuestra plataforma. Es rápido y fácil.</p>
     </div>
     <div class="right-panel">
-      <form>
+      <form method="POST" action="{{ route('Signup.post') }}">
         <h2>Registro</h2>
         <label for="nombre">Nombre completo</label>
         <input type="text" id="nombre" required>
@@ -198,7 +198,7 @@
         <button type="submit">Registrarse</button>
     
         <div class="register-link">
-          ¿Ya tienes cuenta? <a href="{{ route('Login') }}">Inicia sesión</a>
+          ¿Ya tienes cuenta? <a href="{{ route('main') }}">Inicia sesión</a>
         </div>
       </form>
     </div>

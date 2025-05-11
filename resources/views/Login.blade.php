@@ -154,14 +154,13 @@
         <input type="email" name="email" placeholder="Correo Electrónico" required>
         <input type="password" name="password" placeholder="Contraseña" required>
         <div class="options">
-          <a href="#">¿Olvidaste tu contraseña?</a>
-        </div>
+            <a href="#">Forgot password?</a>
+          </div>
         <button type="submit">Entrar</button>
         <div class="register-link">
             ¿No tienes cuenta? <a href="{{ route('Signup') }}">Regístrate aquí</a>
           </div>
       </form>
-    </div>
-  </div>
-</body>
+
 </html>
+
