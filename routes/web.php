@@ -1,17 +1,20 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
-Route::get('/', function (){return view('Login');})->name('Login');
+
+// Mostrar el formulario de login
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+
+// Procesar el formulario de login
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
 
 Route::get('/SignUp', function (){return view('Signup');})->name('Signup');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -35,7 +38,8 @@ use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\PromotionController;
 
 
-Route::resource('users', UserController::class);
+
+Route::resource('users', UserController::class)->names('user');
 Route::resource('barbers', BarberController::class);
 Route::resource('services', ServiceController::class);
 Route::resource('workhours', WorkHourController::class);

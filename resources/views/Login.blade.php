@@ -149,9 +149,10 @@
     </div>
     <div class="right-panel">
       <h2>Iniciar Sesión</h2>
-      <form>
-        <input type="text" placeholder="Username" required>
-        <input type="password" placeholder="Password" required>
+      <form method="POST" action="{{ route('login.post') }}">
+        @csrf
+        <input type="email" name="email" placeholder="Correo Electrónico" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
         <div class="options">
           <a href="#">¿Olvidaste tu contraseña?</a>
         </div>

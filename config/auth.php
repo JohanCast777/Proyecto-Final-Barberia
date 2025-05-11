@@ -2,6 +2,7 @@
 
 return [
 
+    'home' => 'users.index', // Cambia 'users.index' por la ruta que desees
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -34,7 +35,7 @@ return [
     | Supported: "session"
     |
     */
-
+    
     'guards' => [
         'web' => [
             'driver' => 'session',
