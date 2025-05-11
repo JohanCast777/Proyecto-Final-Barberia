@@ -14,13 +14,14 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\SignupController;
 
 // Mostrar el formulario de login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('main');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
 
-Route::get('/SignUp', function (){return view('Signup');})->name('Signup');
-Route::post('/SignUpost', function (){return view('Signup');})->name('Signup.post');
+Route::get('/SignUp', [SignupController::class, 'showSignupForm'])->name('Signup.form');
+Route::post('/Signuppost', [SignupController::class, 'processSignup'])->name('signup.process'); 
 
 Route::resource('users', UserController::class)->names('user');
 Route::resource('barbers', BarberController::class);

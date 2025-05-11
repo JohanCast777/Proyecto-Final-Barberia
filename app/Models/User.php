@@ -49,8 +49,7 @@ class User extends Authenticatable
     {
         return [
             'registered_at' => 'datetime',
-            'active' => 'boolean',
-            'password' => 'hashed',
+            'active' => 'boolean',            
         ];
     }
 

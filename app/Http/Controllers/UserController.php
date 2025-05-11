@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Barber; // Asegúrate de importar el modelo Barber
 use App\Models\User; // Asegúrate de importar el modelo User
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -28,68 +32,39 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'nullable|string|max:15',
-            'password' => 'required|string|min:8',
-            'role' => 'required|in:client,barber,admin',
-        ]);
+    public function processSignup(Request $request)
+{
+    // Validar los datos del formulario
+    $validator = Validator::make($request->all(), [
+        'first_name' => 'required|string|max:50',
+        'last_name' => 'required|string|max:50',
+        'email' => 'required|email|unique:users,email|max:100',
+        'phone' => 'required|string|max:15|unique:users,phone',
+        'password' => 'required|string|min:8|confirmed',
+        'role' => 'required|in:client,barber,admin',
+    ]);
 
-        $validated['password'] = bcrypt($validated['password']); // Encripta la contraseña
-
-        User::create($validated);
-
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $user = User::findOrFail($id); // Busca el usuario por ID
-        return view('users.show', compact('user')); // Pasa los datos a la vista
-    }
+    // Crear el usuario (versión más segura)
+    $user = User::create([
+        'first_name' => trim($request->first_name),
+        'last_name' => trim($request->last_name),
+        'email' => strtolower(trim($request->email)),
+        'phone' => trim($request->phone),
+        'password' => Hash::make($request->password), // Aquí se encripta
+        'role' => $request->role,
+        'registered_at' => now(),
+        'active' => true,
+    ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $user = User::findOrFail($id); // Busca el usuario por ID
-        return view('users.edit', compact('user')); // Pasa los datos a la vista
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id . ',user_id',
-            'phone' => 'nullable|string|max:15',
-            'role' => 'required|in:client,barber,admin',
-        ]);
-
-        $user = User::findOrFail($id);
-        $user->update($validated);
-
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
-    }
+    // Opcional: Autenticar al usuario después de registrarse
+    
+    return redirect()->route('main')
+        ->with('success', 'Registro exitoso. ¡Bienvenido!');
+}
 }

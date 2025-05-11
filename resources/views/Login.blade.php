@@ -158,9 +158,13 @@
           </div>
         <button type="submit">Entrar</button>
         <div class="register-link">
-            ¿No tienes cuenta? <a href="{{ route('Signup') }}">Regístrate aquí</a>
+            ¿No tienes cuenta? <a href="{{ route('Signup.form') }}">Regístrate aquí</a>
           </div>
       </form>
-
+      @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 </html>
 
