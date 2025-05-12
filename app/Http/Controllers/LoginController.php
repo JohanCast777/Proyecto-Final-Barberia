@@ -26,6 +26,8 @@ class LoginController extends Controller
                 return redirect()->route('user.index');
             } elseif ($user->role === 'barber') {
                 return redirect()->route('barbers.index');
+            } elseif ($user->role === 'admin') {
+                return redirect()->route('admin.index');
             } else {
                 // Por ahora, admin u otros roles van al inicio
                 return redirect()->route('main');

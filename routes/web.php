@@ -32,5 +32,6 @@ Route::resource('appointments', AppointmentController::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('scores', ScoreController::class);
 Route::resource('promotions', PromotionController::class);
-
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+Route::get('/crud', [App\Http\Controllers\CrudController::class, 'index'])->name('crud.index');
 
