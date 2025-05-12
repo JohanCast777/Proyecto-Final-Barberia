@@ -43,7 +43,7 @@ class SignupController extends Controller
         ]);        
 
         return redirect()->route('main')
-            ->with('success', '¡Registro exitoso! Bienvenido a nuestra plataforma.');
+            ->with('success', '¡Registro exitoso! Ahora ingresa para continuar.');
 
     } catch (\Illuminate\Database\QueryException $e) {
         $errorCode = $e->errorInfo[1];

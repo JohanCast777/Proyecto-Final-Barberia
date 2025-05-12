@@ -6,15 +6,13 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    
- 
     public function showLoginForm()
     {
-        return view('Login'); // Asegúrate de que 'Login' sea el nombre correcto de tu vista
+        return view('Login');
     }
+
     public function authenticate(Request $request)
     {
-        
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -22,14 +20,20 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            // Redirigir al dashboard
-            return redirect()->route('user.index');
+            $user = Auth::user();
+
+            if ($user->role === 'client') {
+                return redirect()->route('user.index');
+            } elseif ($user->role === 'barber') {
+                return redirect()->route('barbers.index');
+            } else {
+                // Por ahora, admin u otros roles van al inicio
+                return redirect()->route('main');
+            }
         }
-        
 
         return back()->withErrors([
             'email' => 'Las credenciales no coinciden con nuestros registros.',
         ]);
     }
 }
-

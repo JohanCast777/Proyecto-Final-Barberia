@@ -137,6 +137,47 @@
   .register-link a:hover {
     text-decoration: underline;
   }
+  .alert-success {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+      color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+      z-index: 1000;
+      max-width: 350px;
+    }
+    
+    .alert-success::before {
+      content: "✓";
+      margin-right: 10px;
+      font-size: 1.2em;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
 
   </style>
 </head>

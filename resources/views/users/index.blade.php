@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inicio - Barbería El Corte Fino</title>
+  <title>Perfil usuarios</title>
   <link rel="stylesheet" href="styles2.css" />
+  <link rel="shortcut icon" href="/peluqueria.ico" type="image/x-icon">
   <style>
     /* styles2.css */
 body {

@@ -24,10 +24,20 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view('users.create');
-    }
+    public function create(Request $request)
+{
+    // Si usas un modelo User como voluntario:
+    $volunteers = User::where('role', 'client')
+        ->when($request->search, function ($query, $search) {
+            $query->where('first_name', 'like', "%$search%")
+                  ->orWhere('last_name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+        })
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+    return view('users.create', compact('volunteers'));
+}
 
     /**
      * Store a newly created resource in storage.
