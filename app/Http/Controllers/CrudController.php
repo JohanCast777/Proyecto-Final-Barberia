@@ -15,28 +15,30 @@ use Illuminate\Http\Request;
 
 class CrudController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        $barbers = Barber::all();
-        $services = Service::all();
-        $workhours = WorkHour::all();
-        $nonworkingdays = NonWorkingDay::all();
-        $appointments = Appointment::all();
-        $payments = Payment::all();
-        $scores = Score::all();
-        $promotions = Promotion::all();
+        $query = \App\Models\User::where('role', 'client');
 
-        $volunteers = User::where('role', 'client')->paginate(10);
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%$search%")
+                  ->orWhere('last_name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%")
+                  ->orWhere('phone', 'like', "%$search%");
+            });
+        }
 
-        return view('crud.index', compact(
-            'users', 'barbers', 'services', 'workhours', 'nonworkingdays',
-            'appointments', 'payments', 'scores', 'promotions', 'volunteers'
-        ));
+        $volunteers = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        // ...otros datos si los necesitas...
+
+        return view('crud.index', compact('volunteers'));
     }
 
     public function create(Request $request)
     {
+        // Si usas un modelo User como voluntario:
         $volunteers = User::where('role', 'client')
             ->when($request->search, function ($query, $search) {
                 $query->where('first_name', 'like', "%$search%")

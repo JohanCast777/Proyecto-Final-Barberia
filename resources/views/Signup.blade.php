@@ -333,19 +333,8 @@
           <input type="password" id="password_confirmation" name="password_confirmation" required>
         </div>
 
-        <!-- Campo para seleccionar el rol -->
-        <div class="form-group">
-          <label for="role">Rol</label>
-          <select id="role" name="role" class="role-select @error('role') input-error @enderror" required>
-              <option value="" disabled selected>Selecciona tu rol</option>
-              <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>Cliente</option>
-              <option value="barber" {{ old('role') == 'barber' ? 'selected' : '' }}>Barbero</option>
-              <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrador</option>
-          </select>
-          @error('role')
-            <div class="error-message">{{ $message }}</div>
-          @enderror
-        </div>
+        <!-- Campo oculto para el rol -->
+        <input type="hidden" name="role" value="client">
 
         <!-- Botón para enviar el formulario -->
         <button type="submit">Registrarse</button>
