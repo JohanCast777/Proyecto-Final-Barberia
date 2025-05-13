@@ -19,13 +19,11 @@
     <ul class="dropdown-menu" aria-labelledby="tablasDropdown">
       <li><a class="dropdown-item" href="{{ route('crud.index') }}">Usuarios</a></li>
       <li><a class="dropdown-item" href="{{ route('crud.barbers') }}">Barberos</a></li>
-      <li><a class="dropdown-item" href="{{ route('services.index') }}">Servicios</a></li>
-      <li><a class="dropdown-item" href="{{ route('workhours.index') }}">Horarios</a></li>
-      <li><a class="dropdown-item" href="{{ route('nonworkingdays.index') }}">Días no laborables</a></li>
-      <li><a class="dropdown-item" href="{{ route('appointments.index') }}">Citas</a></li>
-      <li><a class="dropdown-item" href="{{ route('payments.index') }}">Pagos</a></li>
-      <li><a class="dropdown-item" href="{{ route('scores.index') }}">Calificaciones</a></li>
-      <li><a class="dropdown-item" href="{{ route('promotions.index') }}">Promociones</a></li>
+      <li><a class="dropdown-item" href="{{ route('crud.services') }}">Servicios</a></li>      
+      <li><a class="dropdown-item" href="{{ route('crud.diasnolaborados') }}">Días no laborables</a></li>
+      <li><a class="dropdown-item" href="{{ route('crud.citas') }}">Citas</a></li>    
+      <li><a class="dropdown-item" href="{{ route('crud.calificaciones') }}">Calificaciones</a></li>
+      <li><a class="dropdown-item" href="{{ route('crud.promociones') }}">Promociones</a></li>
     </ul>
   </div>
 </div>

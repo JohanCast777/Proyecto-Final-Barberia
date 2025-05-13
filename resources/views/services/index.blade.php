@@ -53,7 +53,7 @@
                             >
                                 Editar
                             </button>
-                            <form action="{{ route('services.destroy', $service->service_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('service.destroy', $service->service_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
@@ -77,7 +77,7 @@
 <div class="modal fade" id="crearServicioModal" tabindex="-1" aria-labelledby="crearServicioModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="{{ route('services.store') }}" method="POST">
+      <form action="{{ route('service.store') }}" method="POST">
         @csrf
         <div class="modal-header">
           <h5 class="modal-title" id="crearServicioModalLabel">Registrar nuevo servicio</h5>

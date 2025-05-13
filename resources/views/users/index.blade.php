@@ -321,9 +321,8 @@ body {
   }
     
   
-
   .formulario-centrado {
-    max-width: 400px;
+    max-width: 440px;
     margin: 50px auto; /* Centra horizontalmente */
     padding: 20px;
     background-color: #fff;
@@ -427,7 +426,10 @@ body {
             <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('calificacion')">Califícanos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-semibold text-danger" href="index.html">Cerrar Sesión</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
+          <a class="nav-link fw-semibold text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
           </li>
         </ul>
       </div>
@@ -450,17 +452,17 @@ body {
         <li>
           <h3>Corte Clásico</h3>
           <p>Un corte de cabello tradicional para un look impecable.</p>
-          <span class="price">$25</span>
+          <span class="price">$14.000</span>
         </li>
         <li>
           <h3>Barba Completa</h3>
           <p>Afeitado y arreglo de barba con productos de calidad.</p>
-          <span class="price">$20</span>
+          <span class="price">$8.000</span>
         </li>
         <li>
           <h3>Corte + Barba</h3>
           <p>El paquete completo para un cambio de imagen total.</p>
-          <span class="price">$40</span>
+          <span class="price">$24.000</span>
         </li>
       </ul>
       <p class="view-all-services"><a href="#" onclick="mostrarSeccion('servicios')">Ver todos los servicios</a></p>
@@ -582,10 +584,10 @@ body {
         <input type="text" id="apellido" name ="apellido">
 
         <label for="correo">Correo electrónico:</label>
-        <input type="email" id="correo" name="correo" value="juan@example.com">
+        <input type="email" id="correo" name="correo" >
 
         <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" value="3200000000">
+        <input type="tel" id="telefono" name="telefono" >
 
         <label for="contrase">Contraseña:</label>
         <input type="password" id="contrase" name="contraseña">
@@ -682,8 +684,11 @@ body {
   <script>
     function mostrarSeccion(id) {
       const secciones = document.querySelectorAll("main > section");
-      secciones.forEach(sec => sec.classList.add("hidden"));
-      document.getElementById(id).classList.remove("hidden");
+      secciones.forEach(sec => sec.classList.add("hidden")); // Oculta todas las secciones
+      const seccion = document.getElementById(id);
+      if (seccion) {
+        seccion.classList.remove("hidden"); // Muestra la sección correspondiente
+      }
   
       // Mostrar u ocultar el anuncio según la sección actual
       const anuncio = document.getElementById("anuncio");
@@ -693,7 +698,9 @@ body {
         anuncio.classList.add("hidden");
       }
     }
+  </script>
 
+  <script>
     function mostrarDetalle(id) {
     const tarjeta = document.getElementById(id);
 

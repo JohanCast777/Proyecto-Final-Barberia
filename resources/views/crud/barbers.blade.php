@@ -32,6 +32,7 @@
                     <th>Teléfono</th>
                     <th>Email</th>
                     <th>Puntuacion</th>
+                    <th>Horario laboral</th>
                     <th>Registrado</th>
                     <th class="text-center">Acción</th>
                 </tr>
@@ -45,6 +46,7 @@
                         <td>{{ $barber->user->phone ?? '' }}</td>
                         <td><a href="mailto:{{ $barber->user->email ?? '' }}">{{ $barber->user->email ?? '' }}</a></td>
                         <td>{{ $barber->average_rating }}</td>
+                        <td>{{ $barber->created_at->format('d/m/Y H:i') }}</td>
                         <td>{{ $barber->created_at->format('d/m/Y H:i') }}</td>
                         <td class="text-center">
                             <button
@@ -60,7 +62,7 @@
                             >
                                 Editar
                             </button>
-                            <form action="{{ route('barbers.destroy', $barber->barber_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('barber.destroy', $barber->barber_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
@@ -77,7 +79,7 @@
     </div>
 
     <div class="d-flex justify-content-center">
-        {{ $barbers->links() }}
+        
     </div>
 </div>
 
@@ -85,7 +87,7 @@
 <div class="modal fade" id="crearBarberoModal" tabindex="-1" aria-labelledby="crearBarberoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="{{ route('barbers.store') }}" method="POST">
+      <form action="{{ route('barber.store') }}" method="POST">
         @csrf
         <div class="modal-header">
           <h5 class="modal-title" id="crearBarberoModalLabel">Registrar nuevo barbero</h5>
@@ -179,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('edit_phone').value = phone;
 
         // Cambia la acción del formulario dinámicamente
-        document.getElementById('editarBarberoForm').action = '/barbers/' + id;
+        document.getElementById('editarBarberoForm').action = '/barber/' + id;
     });
 });
 </script>

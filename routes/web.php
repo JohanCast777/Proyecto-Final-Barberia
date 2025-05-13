@@ -18,20 +18,22 @@ use App\Http\Controllers\SignupController;
 
 // Mostrar el formulario de login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('main');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('login.post');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/SignUp', [SignupController::class, 'showSignupForm'])->name('Signup.form');
 Route::post('/Signuppost', [SignupController::class, 'processSignup'])->name('signup.process'); 
 
 Route::resource('users', UserController::class)->names('user');
-Route::resource('barbers', BarberController::class);
-Route::resource('services', ServiceController::class);
-Route::resource('workhours', WorkHourController::class);
-Route::resource('nonworkingdays', NonWorkingDayController::class);
-Route::resource('appointments', AppointmentController::class);
-Route::resource('payments', PaymentController::class);
-Route::resource('scores', ScoreController::class);
-Route::resource('promotions', PromotionController::class);
+Route::resource('barbers', BarberController::class)->names('barber');
+Route::resource('services', ServiceController::class)->names('service');
+Route::resource('workhours', WorkHourController::class)->names('workhour');
+Route::resource('nonworkingdays', NonWorkingDayController::class)->names('nonworkingday');
+Route::resource('appointments', AppointmentController::class)->names('appointment');
+Route::resource('payments', PaymentController::class)->names('payment');
+Route::resource('scores', ScoreController::class)->names('score');
+Route::resource('promotions', PromotionController::class)->names('promotion');
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
 // CRUDS
 Route::get('/crud', [App\Http\Controllers\CrudController::class, 'index'])->name('crud.index');
@@ -44,5 +46,5 @@ Route::get('/crudPagos', [App\Http\Controllers\CrudController::class, 'pagos'])-
 Route::get('/crudCalificaciones', [App\Http\Controllers\CrudController::class, 'calificaciones'])->name('crud.calificaciones');
 Route::get('/crudPromociones', [App\Http\Controllers\CrudController::class, 'promociones'])->name('crud.promociones');
 
-
+Route::get('/barbers', [BarberController::class, 'index'])->name('barbers.index');
 Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');

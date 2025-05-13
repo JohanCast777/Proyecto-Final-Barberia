@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Barber; // Asegúrate de importar el modelo Barber
+use App\Models\Appointment; // Asegúrate de importar el modelo Appointment
 
 class BarberController extends Controller
 {
@@ -26,7 +27,11 @@ class BarberController extends Controller
 
         $barbers = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('barbers.index', compact('barbers'));
+        // Obtén las citas (appointments) desde la base de datos
+        $appointments = Appointment::all(); // Cambia esto según tu lógica
+
+        // Retorna la vista con la variable $appointments
+        return view('barbers.index', compact('barbers', 'appointments'));
     }
 
     /**

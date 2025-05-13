@@ -21,16 +21,17 @@ class SignupController extends Controller
     $validatedData = $request->validate([
         'first_name' => 'required|string|max:12', // Máximo 12 caracteres
         'last_name' => 'required|string|max:12',  // Máximo 12 caracteres
-        'email' => 'required|email|max:100|unique:users,email',
+        'email' => 'required|email|max:100|unique:users,email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
         'phone' => 'required|string|regex:/^\d{10}$/|unique:users,phone', // Exactamente 10 dígitos
         'password' => 'required|string|min:8|confirmed',
         'role' => 'required|in:client,barber,admin',
     ], [
         'first_name.max' => 'El nombre no puede tener más de 12 caracteres. Ingrese un valor adecuado.',
         'last_name.max' => 'El apellido no puede tener más de 12 caracteres. Ingrese un valor adecuado.',
-        'email.unique' => 'Este correo electrónico ya está registrado',
-        'phone.unique' => 'Este número de teléfono ya está en uso',
-        'phone.regex' => 'El campo teléfono debe tener 10 números', // Mensaje personalizado
+        'email.unique' => 'Este correo electrónico ya está registrado.',
+        'email.regex' => 'El correo electrónico debe tener un dominio válido (por ejemplo, .com, .co, .org).',
+        'phone.unique' => 'Este número de teléfono ya está en uso.',
+        'phone.regex' => 'El campo teléfono debe tener 10 números.',
     ]);
 
     try {

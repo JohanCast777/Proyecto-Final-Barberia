@@ -27,6 +27,6 @@ class AppointmentSeeder extends Seeder
         $appointment->status = 'pending';
         $appointment->notes = 'Please be on time.';
         $appointment->created_at = now();
-        $appointment->save();z
+        $appointment->save();
     }
 }

@@ -318,7 +318,7 @@ body {
     
   
   .formulario-centrado {
-    max-width: 500px;
+    max-width: 440px;
     margin: 50px auto; /* Centra horizontalmente */
     padding: 20px;
     background-color: #fff;
@@ -373,14 +373,18 @@ body {
         <li><a href="#" onclick="mostrarSeccion('inicio')">Inicio</a></li>
         <li><a href="#" onclick="mostrarSeccion('servicios')">Servicios</a></li>
         <li><a href="#" onclick="mostrarSeccion('agendar')">Agendar Cita</a></li>
-        <li><a href="#" onclick="mostrarSeccion('mis-citas')">Mis Citas</a></li>
+        <li><a href="#" onclick="mostrarSeccion('mis-citas')">Mis Agenda</a></li>
         <li><a href="#" onclick="mostrarSeccion('perfil')">Mi Perfil</a></li>
         <li><a href="#" onclick="mostrarSeccion('promociones')">Promociones</a></li>
         <li><a href="#" onclick="mostrarSeccion('calificacion')">Calificanos</a></li>
-        <li><a href="{{ route('login') }}">Cerrar Sesión</a></li>
+        <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a></li>
       </ul>
     </nav>
   </header>
+
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+  </form>
 
   <section id="anuncio" class="call-to-action">
     <h2>¿Listo para un corte de primera?</h2>
@@ -398,17 +402,17 @@ body {
         <li>
           <h3>Corte Clásico</h3>
           <p>Un corte de cabello tradicional para un look impecable.</p>
-          <span class="price">$25</span>
+          <span class="price">$14.000</span>
         </li>
         <li>
           <h3>Barba Completa</h3>
           <p>Afeitado y arreglo de barba con productos de calidad.</p>
-          <span class="price">$20</span>
+          <span class="price">$8.000</span>
         </li>
         <li>
           <h3>Corte + Barba</h3>
           <p>El paquete completo para un cambio de imagen total.</p>
-          <span class="price">$40</span>
+          <span class="price">$25.000</span>
         </li>
       </ul>
       <p class="view-all-services"><a href="#" onclick="mostrarSeccion('servicios')">Ver todos los servicios</a></p>
@@ -519,6 +523,11 @@ body {
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('¿Estás seguro de cancelar esta cita?')">Cancelar</button>
+                  </form>
+                  <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
                   </form>
                 </td>
               </tr>

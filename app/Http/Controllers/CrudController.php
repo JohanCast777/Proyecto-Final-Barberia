@@ -84,21 +84,9 @@ class CrudController extends Controller
         return view('services.index', compact('services'));
     }
 
-    public function horarios(Request $request)
+    public function horarios()
     {
-        $query = WorkHour::query();
-
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function($q) use ($search) {
-                $q->where('day', 'like', "%$search%")
-                  ->orWhere('start_time', 'like', "%$search%")
-                  ->orWhere('end_time', 'like', "%$search%");
-            });
-        }
-
-        $workhours = $query->orderBy('created_at', 'desc')->paginate(10);
-
+        $workhours = WorkHour::with('barber')->paginate(10);
         return view('workhours.index', compact('workhours'));
     }
 
