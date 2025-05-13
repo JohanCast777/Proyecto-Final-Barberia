@@ -185,7 +185,7 @@
     
   <div class="container">
     <div class="left-panel">
-      <h1>Bienvenido a Leo's Barber</h1>
+      <h1>Bienvenido a Clasic Barber Club </h1>
       <p>Tu estilo, nuestra pasión. Inicia sesión para reservar tu cita y disfrutar de una experiencia premium en barbería.</p>
     </div>
     <div class="right-panel">

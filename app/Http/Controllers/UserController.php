@@ -44,11 +44,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|max:15|unique:users,phone',
+            'phone' => 'required|string|regex:/^\d{10}$/|unique:users,phone',
             'password' => 'required|string|min:8',
         ]);
 
@@ -116,7 +117,7 @@ class UserController extends Controller
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email,'.$id.',user_id',
-            'phone' => 'required|string|max:15|unique:users,phone,'.$id.',user_id',
+            'phone' => 'required|string|regex:/^\d{10}$/|unique:users,phone', // Exactamente 10 dígitos
         ]);
 
         $user = User::findOrFail($id);

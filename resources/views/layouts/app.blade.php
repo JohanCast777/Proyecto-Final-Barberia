@@ -6,6 +6,7 @@
     <title>@yield('title', 'Barbería')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/peluqueria.ico">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
@@ -16,8 +17,8 @@
       Tablas del sistema
     </button>
     <ul class="dropdown-menu" aria-labelledby="tablasDropdown">
-      <li><a class="dropdown-item" href="{{ route('user.index') }}">Usuarios</a></li>
-      <li><a class="dropdown-item" href="{{ route('barbers.index') }}">Barberos</a></li>
+      <li><a class="dropdown-item" href="{{ route('crud.index') }}">Usuarios</a></li>
+      <li><a class="dropdown-item" href="{{ route('crud.barbers') }}">Barberos</a></li>
       <li><a class="dropdown-item" href="{{ route('services.index') }}">Servicios</a></li>
       <li><a class="dropdown-item" href="{{ route('workhours.index') }}">Horarios</a></li>
       <li><a class="dropdown-item" href="{{ route('nonworkingdays.index') }}">Días no laborables</a></li>

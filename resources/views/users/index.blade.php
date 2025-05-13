@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Perfil usuarios</title>
   <link rel="stylesheet" href="styles2.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="shortcut icon" href="/peluqueria.ico" type="image/x-icon">
   <style>
     /* styles2.css */
@@ -13,6 +16,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4; /* Un fondo claro diferente */
+    padding-top: 90px; /* Ajusta este valor según la nueva altura del navbar */
   }
   
   header {
@@ -363,25 +367,72 @@ body {
   background-color: #fefefe;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+  .navbar .nav-link.active, .navbar .nav-link:focus, .navbar .nav-link:hover {
+    color: #2575fc !important;
+    background-color: #f0f4ff;
+    border-radius: 5px;
+  }
+  .navbar-brand {
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+  }
+  .navbar {
+    min-height: 70px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    font-size: 1.08rem;
+  }
+
+  .brand-cursive {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
   </style>
 </head>
 <body>
 
-  <header class="main-header">
-    <h1>Bienvenido a Classic Barber Club</h1>
-    <nav>
-      <ul>
-        <li><a href="#" onclick="mostrarSeccion('inicio')">Inicio</a></li>
-        <li><a href="#" onclick="mostrarSeccion('servicios')">Servicios</a></li>
-        <li><a href="#" onclick="mostrarSeccion('agendar')">Agendar Cita</a></li>
-        <li><a href="#" onclick="mostrarSeccion('mis-citas')">Mis Citas</a></li>
-        <li><a href="#" onclick="mostrarSeccion('perfil')">Mi Perfil</a></li>
-        <li><a href="#" onclick="mostrarSeccion('promociones')">Promociones</a></li>
-        <li><a href="#" onclick="mostrarSeccion('calificacion')">Calificanos</a></li>
-        <li><a href="index.html">Cerrar Sesión</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Navbar mejorado y fijo -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center fw-bold text-primary" href="#">
+        <img src="/peluqueria.ico" alt="Logo" width="40" height="40" class="me-2">
+        <span class="brand-cursive">Classic Barber Club</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('inicio')">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('servicios')">Servicios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('agendar')">Agendar Cita</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('mis-citas')">Mis Citas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('perfil')">Mi Perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('promociones')">Promociones</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold" href="#" onclick="mostrarSeccion('calificacion')">Califícanos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-semibold text-danger" href="index.html">Cerrar Sesión</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <section id="anuncio" class="call-to-action">
     <h2>¿Listo para un corte de primera?</h2>

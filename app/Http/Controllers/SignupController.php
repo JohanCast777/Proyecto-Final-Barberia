@@ -19,15 +19,18 @@ class SignupController extends Controller
     public function processSignup(Request $request)
 {
     $validatedData = $request->validate([
-        'first_name' => 'required|string|max:50',
-        'last_name' => 'required|string|max:50',
+        'first_name' => 'required|string|max:12', // Máximo 12 caracteres
+        'last_name' => 'required|string|max:12',  // Máximo 12 caracteres
         'email' => 'required|email|max:100|unique:users,email',
-        'phone' => 'required|string|max:15|unique:users,phone',
+        'phone' => 'required|string|regex:/^\d{10}$/|unique:users,phone', // Exactamente 10 dígitos
         'password' => 'required|string|min:8|confirmed',
         'role' => 'required|in:client,barber,admin',
     ], [
+        'first_name.max' => 'El nombre no puede tener más de 12 caracteres. Ingrese un valor adecuado.',
+        'last_name.max' => 'El apellido no puede tener más de 12 caracteres. Ingrese un valor adecuado.',
         'email.unique' => 'Este correo electrónico ya está registrado',
         'phone.unique' => 'Este número de teléfono ya está en uso',
+        'phone.regex' => 'El campo teléfono debe tener 10 números', // Mensaje personalizado
     ]);
 
     try {

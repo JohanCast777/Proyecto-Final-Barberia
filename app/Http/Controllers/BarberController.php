@@ -10,9 +10,22 @@ class BarberController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {        
-        $barbers = Barber::all(); // Obtén todos los barberos
+    public function index(Request $request)
+    {
+        $query = \App\Models\Barber::with('user');
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->whereHas('user', function($q) use ($search) {
+                $q->where('first_name', 'like', "%$search%")
+                  ->orWhere('last_name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%")
+                  ->orWhere('phone', 'like', "%$search%");
+            });
+        }
+
+        $barbers = $query->orderBy('created_at', 'desc')->paginate(10);
+
         return view('barbers.index', compact('barbers'));
     }
 
@@ -47,7 +60,7 @@ class BarberController extends Controller
     public function show(string $id)
     {
         $barber = Barber::findOrFail($id); // Busca el barbero por ID
-    return view('barbers.show', compact('barber')); // Pasa los datos a la vista    
+        return view('barbers.show', compact('barber')); // Pasa los datos a la vista    
     }
 
     /**

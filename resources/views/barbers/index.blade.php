@@ -317,9 +317,8 @@ body {
   }
     
   
-
   .formulario-centrado {
-    max-width: 400px;
+    max-width: 500px;
     margin: 50px auto; /* Centra horizontalmente */
     padding: 20px;
     background-color: #fff;
@@ -378,7 +377,7 @@ body {
         <li><a href="#" onclick="mostrarSeccion('perfil')">Mi Perfil</a></li>
         <li><a href="#" onclick="mostrarSeccion('promociones')">Promociones</a></li>
         <li><a href="#" onclick="mostrarSeccion('calificacion')">Calificanos</a></li>
-        <li><a href="index.html">Cerrar Sesión</a></li>
+        <li><a href="{{ route('login') }}">Cerrar Sesión</a></li>
       </ul>
     </nav>
   </header>
@@ -461,9 +460,10 @@ body {
     <!-- Seccion de agendar -->
     <section id="agendar" class="hidden">
       <h2>Agendar Cita</h2>
-      <form id="form-agendar" class="formulario-centrado">
+      <form id="form-agendar" action="{{ route('appointments.store') }}" method="POST" class="formulario-centrado">
+        @csrf
         <label for="barbero">Seleccionar Barbero:</label>
-        <select type="select" id="barbero" name="barbero">
+        <select id="barbero" name="barber_id" required>
           <option value="">-- Selecciona --</option>
           <option value="1">Carlos</option>
           <option value="2">Andrés</option>
@@ -471,21 +471,17 @@ body {
         </select>
 
         <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" required>
+        <input type="date" id="fecha" name="scheduled_date" required>
 
         <label for="hora">Hora:</label>
-        <input type="time" id="hora" name="hora" required>
+        <input type="time" id="hora" name="scheduled_time" required>
 
         <label for="servicio">Servicio:</label>
-        <select type="select" id="servicio" name="servicio">
+        <select id="servicio" name="service_id" required>
           <option value="">-- Selecciona --</option>
-          <option value="corte">Corte Clásico</option>
-          <option value="barba">Barba Completa</option>
-          <option value="combo">Corte + Barba</option>
-          <option value="combo">Limpieza Facial</option>
-          <option value="combo">Despilacion de Cejas</option>
-          <option value="combo">Tintura de Cabello</option>
-          <option value="combo">Rayos para el Cabello</option>
+          <option value="1">Corte Clásico</option>
+          <option value="2">Barba Completa</option>
+          <option value="3">Corte + Barba</option>
         </select>
 
         <button type="submit">Reservar Cita</button>
@@ -494,30 +490,42 @@ body {
 
     <section id="mis-citas" class="hidden">
       <h2>Mis Citas</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID cita</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Barbero</th>
-            <th>Servicio</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>2025-05-03</td>
-            <td>15:30</td>
-            <td>Carlos</td>
-            <td>Corte</td>
-            <td>Confirmada</td>
-            <td><button>Cancelar</button></td>
-          </tr>
-        </tbody>
-      </table>
+      @if($appointments->isEmpty())
+        <p>No tienes citas agendadas.</p>
+      @else
+        <table>
+          <thead>
+            <tr>
+              <th>ID Cita</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Barbero</th>
+              <th>Servicio</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($appointments as $appointment)
+              <tr>
+                <td>{{ $appointment->appointment_id }}</td>
+                <td>{{ $appointment->scheduled_at->format('Y-m-d') }}</td>
+                <td>{{ $appointment->scheduled_at->format('H:i') }}</td>
+                <td>{{ $appointment->barber->name }}</td>
+                <td>{{ $appointment->service->name }}</td>
+                <td>{{ ucfirst($appointment->status) }}</td>
+                <td>
+                  <form action="{{ route('appointments.destroy', $appointment->appointment_id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('¿Estás seguro de cancelar esta cita?')">Cancelar</button>
+                  </form>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      @endif
     </section>
 
     <!-- Seccion de perfil -->

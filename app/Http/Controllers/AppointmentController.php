@@ -35,19 +35,23 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los datos del formulario
         $validated = $request->validate([
-            'client_id' => 'required|exists:users,user_id',
             'barber_id' => 'required|exists:barbers,barber_id',
             'service_id' => 'required|exists:services,service_id',
-            'scheduled_at' => 'required|date|after:now',
-            'estimated_duration' => 'required|integer|min:1',
-            'status' => 'required|in:pending,confirmed,completed,cancelled,no_show',
-            'notes' => 'nullable|string',
+            'scheduled_date' => 'required|date|after_or_equal:today',
+            'scheduled_time' => 'required',
         ]);
 
+        // Combinar fecha y hora en un solo campo
+        $validated['scheduled_at'] = $validated['scheduled_date'] . ' ' . $validated['scheduled_time'];
+        unset($validated['scheduled_date'], $validated['scheduled_time']);
+
+        // Guardar la cita en la base de datos
         Appointment::create($validated);
 
-        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+        // Redirigir con un mensaje de éxito
+        return redirect()->back()->with('success', 'Cita agendada exitosamente.');
     }
 
     /**
@@ -91,6 +95,8 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
     }
+
+    
 
     /**
      * Remove the specified resource from storage.

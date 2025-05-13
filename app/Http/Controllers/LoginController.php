@@ -18,24 +18,24 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            $user = Auth::user();
+        // Verificar si el correo existe en la base de datos
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
 
-            if ($user->role === 'client') {
-                return redirect()->route('user.index');
-            } elseif ($user->role === 'barber') {
-                return redirect()->route('barbers.index');
-            } elseif ($user->role === 'admin') {
-                return redirect()->route('admin.index');
-            } else {
-                // Por ahora, admin u otros roles van al inicio
-                return redirect()->route('main');
-            }
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Este usuario no existe.', // Mensaje actualizado
+            ])->withInput();
         }
 
-        return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
-        ]);
+        // Intentar autenticar al usuario
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors([
+                'password' => 'La contraseña ingresada es incorrecta.',
+            ])->withInput();
+        }
+
+        // Si la autenticación es exitosa
+        $request->session()->regenerate();
+        return redirect()->route('main'); // Redirige al usuario a la página principal o donde desees
     }
 }

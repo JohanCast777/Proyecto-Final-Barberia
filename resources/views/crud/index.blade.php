@@ -36,12 +36,13 @@
                     <th>Apellido</th>
                     <th>Teléfono</th>
                     <th>Email</th>
+                    <th>Role</th>                    
                     <th>Status</th>
-                    <th>Registrado</th>
+                    <th>Registrado</th>                                                     
                     <th class="text-center">Acción</th>
-                </tr>
-            </thead>
-            <tbody>
+                </tr>           
+            </thead>                
+            <tbody>                              
                 @forelse($volunteers as $volunteer)
                     <tr>
                         <td>{{ $volunteer->user_id }}</td>                        
@@ -49,6 +50,7 @@
                         <td>{{ $volunteer->last_name }}</td>
                         <td>{{ $volunteer->phone }}</td>
                         <td><a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></td>
+                        <td>{{ $volunteer->role == 'client' ? 'Cliente' : ($volunteer->role == 'barber' ? 'Barbero' : 'Administrador') }}</td>
                         <td>{{ $volunteer->active ? 'Activo' : 'Inactivo' }}</td>
                         <td>{{ $volunteer->created_at->format('d/m/Y H:i') }}</td>
                         <td class="text-center">

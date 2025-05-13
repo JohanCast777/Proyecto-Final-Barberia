@@ -33,5 +33,16 @@ Route::resource('payments', PaymentController::class);
 Route::resource('scores', ScoreController::class);
 Route::resource('promotions', PromotionController::class);
 Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+// CRUDS
 Route::get('/crud', [App\Http\Controllers\CrudController::class, 'index'])->name('crud.index');
+Route::get('/crudBarberos', [App\Http\Controllers\CrudController::class, 'barbers'])->name('crud.barbers');
+Route::get('/crudServicios', [App\Http\Controllers\CrudController::class, 'services'])->name('crud.services');
+Route::get('/crudHorarios', [App\Http\Controllers\CrudController::class, 'horarios'])->name('crud.horarios');
+Route::get('/crudDiasNoLaborados', [App\Http\Controllers\CrudController::class, 'diasnolaborados'])->name('crud.diasnolaborados');
+Route::get('/crudCitas', [App\Http\Controllers\CrudController::class, 'citas'])->name('crud.citas');
+Route::get('/crudPagos', [App\Http\Controllers\CrudController::class, 'pagos'])->name('crud.pagos');
+Route::get('/crudCalificaciones', [App\Http\Controllers\CrudController::class, 'calificaciones'])->name('crud.calificaciones');
+Route::get('/crudPromociones', [App\Http\Controllers\CrudController::class, 'promociones'])->name('crud.promociones');
 
+
+Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
