@@ -179,6 +179,33 @@
       }
     }
 
+    .form-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 15px;
+      background: #f0f0f0;
+      outline: none;
+      padding-left: 20px;
+      font-size: 1em;
+    }
+    
+    .error-message {
+      color: red;
+      font-size: 0.85em;
+      margin-top: 5px;
+      display: block;
+      position: absolute;
+      bottom: -20px; /* Mueve el mensaje debajo del input */
+      left: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -192,17 +219,33 @@
       <h2>Iniciar Sesión</h2>
       <form method="POST" action="{{ route('login.post') }}">
         @csrf
-        <input type="email" name="email" placeholder="Correo Electrónico" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
+
+        <div class="form-group">
+            <input type="email" name="email" placeholder="Correo Electrónico" value="{{ old('email') }}" required>
+            @error('email')
+                <span class="error-message">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="password" placeholder="Contraseña" required>
+            @error('password')
+                <span class="error-message">{{ $message }}</span>
+            @enderror
+        </div>
+
         <div class="options">
             <a href="#">Forgot password?</a>
-          </div>
+        </div>
+
         <button type="submit">Entrar</button>
+
         <div class="register-link">
             ¿No tienes cuenta? <a href="{{ route('Signup.form') }}">Regístrate aquí</a>
-          </div>
-      </form>
-      @if (session('success'))
+        </div>
+    </form>
+
+    @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>

@@ -32,42 +32,36 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Role</th>                    
-                    <th>Status</th>
+                    <th>Cita</th>                    
+                    <th>Calificacion</th>                    
+                    <th>Comentario</th>
                     <th>Registrado</th>                                                     
                     <th class="text-center">Acción</th>
                 </tr>           
             </thead>                
             <tbody>                              
-                @forelse($volunteers as $volunteer)
+                @forelse($scores as $score)
                     <tr>
-                        <td>{{ $volunteer->user_id }}</td>                        
-                        <td>{{ $volunteer->first_name }}</td>
-                        <td>{{ $volunteer->last_name }}</td>
-                        <td>{{ $volunteer->phone }}</td>
-                        <td><a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></td>
-                        <td>{{ $volunteer->role == 'client' ? 'Cliente' : ($volunteer->role == 'barber' ? 'Barbero' : 'Administrador') }}</td>
-                        <td>{{ $volunteer->active ? 'Activo' : 'Inactivo' }}</td>
-                        <td>{{ $volunteer->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $score->score_id }}</td>                        
+                        <td>{{ $score->appointment_id }}</td>
+                        <td>{{ $score->rating }}</td>
+                        <td>{{ $score->comment }}</td>
+                        <td>{{ $score->rated_at }}</td>                        
                         <td class="text-center">
                             <button
                                 type="button"
                                 class="btn btn-sm btn-warning"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editarVoluntarioModal"
-                                data-id="{{ $volunteer->user_id }}"
-                                data-first_name="{{ $volunteer->first_name }}"
-                                data-last_name="{{ $volunteer->last_name }}"
-                                data-email="{{ $volunteer->email }}"
-                                data-phone="{{ $volunteer->phone }}"
+                                data-id="{{ $score->score_id }}"
+                                data-first_name="{{ $score->appointment_id }}"
+                                data-last_name="{{ $score->rating }}"
+                                data-email="{{ $score->comment }}"
+                                data-phone="{{ $score->rated_at }}"
                             >
                                 Editar
                             </button>
-                            <form action="{{ route('user.destroy', $volunteer->user_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('user.destroy', $score->score_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
@@ -85,7 +79,7 @@
 
     {{-- Paginación --}}
     <div class="d-flex justify-content-center">
-        {{ $volunteers->links() }}
+        {{ $scores->links() }}
     </div>
 </div>
 
@@ -93,7 +87,7 @@
 <div class="modal fade" id="crearVoluntarioModal" tabindex="-1" aria-labelledby="crearVoluntarioModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="{{ route('user.store') }}" method="POST">
+      <form action="" method="POST">
         @csrf
         <div class="modal-header">
           <h5 class="modal-title" id="crearVoluntarioModalLabel">Registrar nuevo voluntario</h5>
@@ -230,17 +224,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 </tr>
             </thead>
             <tbody>
-                @forelse($volunteers as $volunteer)
+                @forelse($scores as $score)
                     <tr>
-                        <td>{{ $volunteer->user_id }}</td>
-                        <td>{{ $volunteer->first_name }} {{ $volunteer->last_name }}</td>
-                        <td>{{ $volunteer->phone }}</td>
-                        <td><a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></td>
-                        <td>{{ $volunteer->active ? 'Activo' : 'Inactivo' }}</td>
-                        <td>{{ $volunteer->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $score->score_id }}</td>                        
+                        <td>{{ $score->appointment_id }}</td>
+                        <td>{{ $score->rating }}</td>
+                        <td>{{ $score->comment }}</td>
+                        <td>{{ $score->rated_at }}</td> 
                         <td class="text-center">
                             <a href="" class="btn btn-sm btn-warning">Editar</a>
-                            <form action="{{ route('user.destroy', $volunteer->user_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('user.destroy', $score->score_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
@@ -257,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <div class="d-flex justify-content-center">
-        {{ $volunteers->links() }}
+        {{ $scores->links() }}
     </div>
 </div>
 @endsection

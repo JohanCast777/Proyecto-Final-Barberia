@@ -1,4 +1,4 @@
-{{-- filepath: resources/views/admin/volunteers.blade.php --}}
+x{{-- filepath: resources/views/admin/volunteers.blade.php --}}
 
 
 @section('content')
@@ -35,10 +35,9 @@
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Role</th>                    
-                    <th>Status</th>
-                    <th>Registrado</th>                                                     
+                    <th>Correo</th>                                       
+                    <th>Estado</th>
+                    <th>Fecha de registro</th>                                                     
                     <th class="text-center">Acción</th>
                 </tr>           
             </thead>                
@@ -49,8 +48,7 @@
                         <td>{{ $volunteer->first_name }}</td>
                         <td>{{ $volunteer->last_name }}</td>
                         <td>{{ $volunteer->phone }}</td>
-                        <td><a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></td>
-                        <td>{{ $volunteer->role == 'client' ? 'Cliente' : ($volunteer->role == 'barber' ? 'Barbero' : 'Administrador') }}</td>
+                        <td><a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></td>                        
                         <td>{{ $volunteer->active ? 'Activo' : 'Inactivo' }}</td>
                         <td>{{ $volunteer->created_at->format('d/m/Y H:i') }}</td>
                         <td class="text-center">

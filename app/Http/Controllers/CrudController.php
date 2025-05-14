@@ -37,6 +37,7 @@ class CrudController extends Controller
     public function barbers(Request $request)
     {
         $query = Barber::query();
+        
 
         if ($request->filled('search')) {
             $search = $request->input('search');
@@ -109,7 +110,7 @@ class CrudController extends Controller
 
     public function citas(Request $request)
     {
-        $query = Appointment::query();
+        $query = Appointment::with(['barber', 'client', 'service']);
 
         if ($request->filled('search')) {
             $search = $request->input('search');

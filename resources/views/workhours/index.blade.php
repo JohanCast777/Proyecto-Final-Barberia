@@ -39,7 +39,6 @@
                     <tr>
                         <td>{{ $workhour->work_hour_id }}</td>
                         <td>{{ $workhour->barber->user->first_name ?? '' }}</td>
-                        <td>{{ $workhour->barber->user->last_name ?? '' }}</td>
                         <td>{{ $workhour->start_time }}</td>
                         <td>{{ $workhour->end_time }}</td>
                         <td class="text-center">

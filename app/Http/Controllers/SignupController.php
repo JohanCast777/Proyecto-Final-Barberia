@@ -19,19 +19,23 @@ class SignupController extends Controller
     public function processSignup(Request $request)
 {
     $validatedData = $request->validate([
-        'first_name' => 'required|string|max:12', // Máximo 12 caracteres
-        'last_name' => 'required|string|max:12',  // Máximo 12 caracteres
+        'first_name' => 'required|string|max:12|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/', // Solo letras y espacios
+        'last_name' => 'required|string|max:12|regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/',  // Solo letras y espacios
         'email' => 'required|email|max:100|unique:users,email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
         'phone' => 'required|string|regex:/^\d{10}$/|unique:users,phone', // Exactamente 10 dígitos
         'password' => 'required|string|min:8|confirmed',
         'role' => 'required|in:client,barber,admin',
     ], [
+        'first_name.regex' => 'No se permiten caracteres especiales.',
+        'last_name.regex' => 'No se permiten caracteres especiales.',
         'first_name.max' => 'El nombre no puede tener más de 12 caracteres. Ingrese un valor adecuado.',
         'last_name.max' => 'El apellido no puede tener más de 12 caracteres. Ingrese un valor adecuado.',
         'email.unique' => 'Este correo electrónico ya está registrado.',
         'email.regex' => 'El correo electrónico debe tener un dominio válido (por ejemplo, .com, .co, .org).',
         'phone.unique' => 'Este número de teléfono ya está en uso.',
         'phone.regex' => 'El campo teléfono debe tener 10 números.',
+        'password.min' => 'La contraseña debe tener al menos 8 caracteres.', // Mensaje personalizado
+        'password.confirmed' => 'La confirmación de la contraseña no coincide.', // Mensaje adicional si es necesario
     ]);
 
     try {

@@ -475,37 +475,37 @@ body {
       <ul class="servicios-lista">
         <li>
           <span>Cortes clásicos</span>
-          <img src="Images/corte.png" alt="Corte Clásico">
+          <img src="{{ asset('images/corte.png') }}" alt="Corte Clásico">
           <span class="precio-servicio">$14.000</span>
         </li>
         <li>
           <span>Barba completa</span>
-          <img src="Images/barba.png">
+          <img src="{{ asset('images/barba.png') }}" alt="Barba Completa">
           <span class="precio-servicio">$8.000</span>
         </li>
         <li>
           <span>Corte + Barba</span>
-          <img src="Images/xwOYLXEQ8G2F2cjz.png">
+          <img src="{{ asset('images/xwOYLXEQ8G2F2cjz.png') }}" alt="Corte + Barba">
           <span class="precio-servicio">$21.000</span>
         </li>
         <li>
           <span>Limpieza Facial</span>
-          <img src="Images/liempieza.PNG">
+          <img src="{{ asset('images/liempieza.PNG') }}" alt="Limpieza Facial">
           <span class="precio-servicio">$10.000</span>
         </li>
         <li>
           <span>Depilado de Cejas</span>
-          <img src="Images/cejas.PNG">
+          <img src="{{ asset('images/cejas.PNG') }}" alt="Depilado de Cejas">
           <span class="precio-servicio">$3.000</span>
         </li>
         <li>
           <span>Tinte de Cabello</span>
-          <img src="Images/Tinturado.PNG">
+          <img src="{{ asset('images/Tinturado.PNG') }}" alt="Tinte de Cabello">
           <span class="precio-servicio">$80.000</span>
         </li>
         <li>
           <span>Rayos para el Cabello</span>
-          <img src="Images/rayos.jpg">
+          <img src="{{ asset('images/rayos.jpg') }}" alt="Rayos para el Cabello">
           <span class="precio-servicio">$80.000</span>
         </li>
       </ul>
@@ -576,24 +576,28 @@ body {
     <!-- Seccion de perfil -->
     <section id="perfil" class="hidden">
       <h2>Mi Perfil</h2>
-      <form id="form-perfil" class="formulario-centrado">
+      <form id="form-perfil" class="formulario-centrado" method="POST" action="{{ route('user.update') }}">
+        @csrf
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
+        <input type="text" id="nombre" name="first_name" value="{{ $user->first_name }}" required>
 
         <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name ="apellido">
+        <input type="text" id="apellido" name="last_name" value="{{ $user->last_name }}" required>
 
         <label for="correo">Correo electrónico:</label>
-        <input type="email" id="correo" name="correo" >
+        <input type="email" id="correo" name="email" value="{{ $user->email }}" required>
 
         <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" >
+        <input type="tel" id="telefono" name="phone" value="{{ $user->phone }}" required>
 
         <label for="contrase">Contraseña:</label>
-        <input type="password" id="contrase" name="contraseña">
-        
+        <input type="password" id="contrase" name="password">
+
+        <label for="contrase_confirmation">Confirmar Contraseña:</label>
+        <input type="password" id="contrase_confirmation" name="password_confirmation">
+
         <label for="fecha-registro">Fecha de Registro:</label>
-        <input type="text" id="fecha-registro" name="fecha-registro" readonly>
+        <input type="text" id="fecha-registro" name="fecha-registro" value="{{ $user->registered_at }}" readonly>
 
         <button type="submit">Actualizar Perfil</button>
       </form>

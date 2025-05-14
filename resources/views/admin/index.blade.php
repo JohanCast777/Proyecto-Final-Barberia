@@ -11,7 +11,7 @@
     
 <div class="container">
     <h1>Panel de Administrador</h1>
-    <p>Bienvenido, {{ Auth::user()->first_name }}.</p>
+    <p>Bienvenido,.</p>
 
     @if(session('success'))
         <div class="alert alert-success">

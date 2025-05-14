@@ -311,7 +311,7 @@
 
         <!-- Campo para el teléfono -->
         <div class="form-group">
-          <label for="phone">Teléfono</label>
+          <label for="phone">Teléfono (+57)</label>
           <input type="text" id="phone" name="phone" value="{{ old('phone') }}" class="@error('phone') input-error @enderror" required>
           @error('phone')
             <div class="error-message">{{ $message }}</div>

@@ -18,6 +18,13 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+        // Verificar si el correo existe en la base de datos
+        if (!\App\Models\User::where('email', $credentials['email'])->exists()) {
+            return back()->withErrors([
+                'email' => 'El correo electrónico no está registrado en nuestro sistema.',
+            ]);
+        }
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
@@ -35,7 +42,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
+            'email' => 'Las contraseña es incorrecta.',
         ]);
     }
 

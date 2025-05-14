@@ -31,8 +31,7 @@
                     <th>Apellido</th>
                     <th>Teléfono</th>
                     <th>Email</th>
-                    <th>Puntuacion</th>
-                    <th>Horario laboral</th>
+                    <th>Puntuacion</th>                    
                     <th>Registrado</th>
                     <th class="text-center">Acción</th>
                 </tr>
@@ -46,8 +45,7 @@
                         <td>{{ $barber->user->phone ?? '' }}</td>
                         <td><a href="mailto:{{ $barber->user->email ?? '' }}">{{ $barber->user->email ?? '' }}</a></td>
                         <td>{{ $barber->average_rating }}</td>
-                        <td>{{ $barber->created_at->format('d/m/Y H:i') }}</td>
-                        <td>{{ $barber->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $barber->created_at->format('d/m/Y H:i') }}</td>                                                
                         <td class="text-center">
                             <button
                                 type="button"

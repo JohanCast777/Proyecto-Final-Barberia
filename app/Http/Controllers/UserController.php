@@ -17,12 +17,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all(); // Obtén todos los usuarios
-        return view('users.index', compact('users')); // Pasa los datos a la vista
+        $user = auth()->user(); // Obtiene el usuario autenticado
+        return view('users.index', compact('user')); // Pasa los datos del usuario a la vista
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource
      */
     public function create(Request $request)
     {
@@ -111,7 +111,7 @@ class UserController extends Controller
         return redirect()->route('crud.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
-        public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'first_name' => 'required|string|max:50',
@@ -130,4 +130,5 @@ class UserController extends Controller
 
         return redirect()->route('crud.index')->with('success', 'Usuario actualizado correctamente.');
     }
+
 }

@@ -1,4 +1,4 @@
-{{-- filepath: resources/views/admin/volunteers.blade.php --}}
+{{-- filepath: resources/views/admin/promotions.blade.php --}}
 
 
 @section('content')
@@ -43,31 +43,31 @@
                 </tr>           
             </thead>                
             <tbody>                              
-                @forelse($volunteers as $volunteer)
+                @forelse($promotions as $promotion)
                     <tr>
-                        <td>{{ $volunteer->user_id }}</td>                        
-                        <td>{{ $volunteer->first_name }}</td>
-                        <td>{{ $volunteer->last_name }}</td>
-                        <td>{{ $volunteer->phone }}</td>
-                        <td><a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></td>
-                        <td>{{ $volunteer->role == 'client' ? 'Cliente' : ($volunteer->role == 'barber' ? 'Barbero' : 'Administrador') }}</td>
-                        <td>{{ $volunteer->active ? 'Activo' : 'Inactivo' }}</td>
-                        <td>{{ $volunteer->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $promotion->promotion_id }}</td>                        
+                        <td>{{ $promotion->code }}</td>
+                        <td>{{ $promotion->description }}</td>
+                        <td>{{ $promotion->discount }}</td>
+                        <td>{{ $promotion->start_date }}</td>                                     
+                        <td>{{ $promotion->end_date }}</td>                                     
                         <td class="text-center">
                             <button
                                 type="button"
                                 class="btn btn-sm btn-warning"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editarVoluntarioModal"
-                                data-id="{{ $volunteer->user_id }}"
-                                data-first_name="{{ $volunteer->first_name }}"
-                                data-last_name="{{ $volunteer->last_name }}"
-                                data-email="{{ $volunteer->email }}"
-                                data-phone="{{ $volunteer->phone }}"
-                            >
+                                data-id="{{ $promotion->promotion_id }}"
+                                data-code="{{ $promotion->code }}"
+                                data-description="{{ $promotion->description }}"
+                                data-email="{{ $promotion->email }}"
+                                data-discount="{{ $promotion->discount }}"
+                                data-start_date="{{ $promotion->start_date }}"
+                                data-end_date="{{ $promotion->end_date }}"
+    >
                                 Editar
                             </button>
-                            <form action="{{ route('user.destroy', $volunteer->user_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('user.destroy', $promotion->promotion_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
@@ -85,7 +85,7 @@
 
     {{-- Paginación --}}
     <div class="d-flex justify-content-center">
-        {{ $volunteers->links() }}
+        {{ $promotions->links() }}
     </div>
 </div>
 
@@ -101,20 +101,20 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label for="first_name" class="form-label">Nombre</label>
-            <input type="text" name="first_name" class="form-control" required>
+            <label for="code" class="form-label">Nombre</label>
+            <input type="text" name="code" class="form-control" required>
           </div>
           <div class="mb-3">
-            <label for="last_name" class="form-label">Apellido</label>
-            <input type="text" name="last_name" class="form-control" required>
+            <label for="description" class="form-label">Apellido</label>
+            <input type="text" name="description" class="form-control" required>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Correo</label>
             <input type="email" name="email" class="form-control" required>
           </div>
           <div class="mb-3">
-            <label for="phone" class="form-label">Teléfono</label>
-            <input type="text" name="phone" class="form-control" required>
+            <label for="discount" class="form-label">Teléfono</label>
+            <input type="text" name="discount" class="form-control" required>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
@@ -143,14 +143,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
-          <input type="hidden" name="user_id" id="edit_user_id">
+          <input type="hidden" name="promotion_id" id="edit_user_id">
           <div class="mb-3">
-            <label for="edit_first_name" class="form-label">Nombre</label>
-            <input type="text" name="first_name" id="edit_first_name" class="form-control" required>
+            <label for="edit_code" class="form-label">Nombre</label>
+            <input type="text" name="code" id="edit_code" class="form-control" required>
           </div>
           <div class="mb-3">
             <label for="edit_last_name" class="form-label">Apellido</label>
-            <input type="text" name="last_name" id="edit_last_name" class="form-control" required>
+            <input type="text" name="description" id="edit_last_name" class="form-control" required>
           </div>
           <div class="mb-3">
             <label for="edit_email" class="form-label">Correo</label>
@@ -158,7 +158,7 @@
           </div>
           <div class="mb-3">
             <label for="edit_phone" class="form-label">Teléfono</label>
-            <input type="text" name="phone" id="edit_phone" class="form-control" required>
+            <input type="text" name="discount" id="edit_phone" class="form-control" required>
           </div>
         </div>
         <div class="modal-footer">
@@ -176,16 +176,16 @@ document.addEventListener('DOMContentLoaded', function () {
     editarModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
         var id = button.getAttribute('data-id');
-        var first_name = button.getAttribute('data-first_name');
-        var last_name = button.getAttribute('data-last_name');
+        var code = button.getAttribute('data-code');
+        var description = button.getAttribute('data-description');
         var email = button.getAttribute('data-email');
-        var phone = button.getAttribute('data-phone');
+        var discount = button.getAttribute('data-discount');
 
         document.getElementById('edit_user_id').value = id;
-        document.getElementById('edit_first_name').value = first_name;
-        document.getElementById('edit_last_name').value = last_name;
+        document.getElementById('edit_code').value = code;
+        document.getElementById('edit_last_name').value = description;
         document.getElementById('edit_email').value = email;
-        document.getElementById('edit_phone').value = phone;
+        document.getElementById('edit_phone').value = discount;
 
         // Cambia la acción del formulario dinámicamente
         document.getElementById('editarVoluntarioForm').action = '/users/' + id;
@@ -230,17 +230,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 </tr>
             </thead>
             <tbody>
-                @forelse($volunteers as $volunteer)
+                @forelse($promotions as $promotion)
                     <tr>
-                        <td>{{ $volunteer->user_id }}</td>
-                        <td>{{ $volunteer->first_name }} {{ $volunteer->last_name }}</td>
-                        <td>{{ $volunteer->phone }}</td>
-                        <td><a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></td>
-                        <td>{{ $volunteer->active ? 'Activo' : 'Inactivo' }}</td>
-                        <td>{{ $volunteer->created_at->format('d/m/Y H:i') }}</td>
+                        <td>{{ $promotion->promotion_id }}</td>
+                        <td>{{ $promotion->code }} {{ $promotion->description }}</td>
+                        <td>{{ $promotion->discount }}</td>
+                        <td>{{ $promotion->start_date }}</td>                                     
+                        <td>{{ $promotion->end_date }}</td> 
                         <td class="text-center">
                             <a href="" class="btn btn-sm btn-warning">Editar</a>
-                            <form action="{{ route('user.destroy', $volunteer->user_id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('user.destroy', $promotion->promotion_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
@@ -257,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <div class="d-flex justify-content-center">
-        {{ $volunteers->links() }}
+        {{ $promotions->links() }}
     </div>
 </div>
 @endsections
