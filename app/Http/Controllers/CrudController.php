@@ -15,9 +15,12 @@ use Illuminate\Http\Request;
 
 class CrudController extends Controller
 {
-    public function index(Request $request)
+    
+    //USUARIOS 
+public function index(Request $request)
     {
-        $query = User::where('role', 'client');
+        // Show all users regardless of role
+        $query = User::query();
 
         if ($request->filled('search')) {
             $search = $request->input('search');
@@ -29,7 +32,7 @@ class CrudController extends Controller
             });
         }
 
-        $volunteers = $query->orderBy('created_at', 'desc')->paginate(10);
+        $volunteers = $query->orderBy('created_at', 'asc')->paginate(10);
 
         return view('crud.index', compact('volunteers'));
     }
@@ -49,7 +52,7 @@ class CrudController extends Controller
             });
         }
 
-        $barbers = $query->orderBy('created_at', 'desc')->paginate(10);
+        $barbers = $query->orderBy('created_at', 'asc')->paginate(10);
 
         return view('crud.barbers', compact('barbers'));
     }

@@ -13,6 +13,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::all(); // Obtén todos los servicios
+        
         return view('services.index', compact('services')); // Pasa los datos a la vista
     }
 

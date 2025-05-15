@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="styles2.css" />
   <link rel="shortcut icon" href="/peluqueria.ico" type="image/x-icon">
   <style>
-    /* styles2.css */
+    /* barbero.css */
 body {
-    font-family: sans-serif; /* Puedes usar una fuente diferente aquí */
+    font-family: sans-serif; 
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Un fondo claro diferente */
+    background-color: #f4f4f4; 
   }
   
   header {
@@ -21,12 +21,6 @@ body {
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
-  header h1 {
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
   header nav ul {
     list-style: none;
     display: flex;
@@ -34,27 +28,33 @@ body {
     gap: 20px;
     padding: 10px 0;
   }
-  
-  header nav a {
-    text-decoration: none;
-    color: #007bff; /* Un color diferente para los enlaces */
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  header nav a:hover {
-    color: #0056b3;
-  }
-  
   main {
     padding: 20px;
   }
+  .main-header {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #ffffff;
+    padding: px;
+    text-align: center;
+  }
+  .main-header h1 {
+    margin-top: 18px;
+    font-size: 28px;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .main-header nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+
   #servicios h2,
   #agendar h2,
-  #agregarbarbero h2,
-  #calificacion h2,
   #calificaciones h2,
-  #estadisticas,
   #mis-citas h2,
   #perfil h2 {
     color: #333;
@@ -62,18 +62,6 @@ body {
     text-align: center;
   }
   
-  .servicios-lista {
-    
-    list-style: none;
-    padding: 0;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    display: flex; /* Usamos flexbox para controlar la disposición */
-  flex-direction:row; /* Apilamos los elementos verticalmente */
-  align-items:center;
-  
-  }
   
   .servicios-lista li {
     background-color: #fff;
@@ -84,25 +72,11 @@ body {
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     display: flex; /* Activa flexbox dentro de cada tarjeta para organizar el contenido */
-  flex-direction: column; /* Organiza el contenido de la tarjeta verticalmente */
-  align-items: center; /* Centra el contenido de la tarjeta horizontalmente */
-  text-align: center; /* Centra el texto dentro de la tarjeta */
-    
+    flex-direction: column; /* Organiza el contenido de la tarjeta verticalmente */
+    align-items: center; /* Centra el contenido de la tarjeta horizontalmente */
+    text-align: center; /* Centra el texto dentro de la tarjeta */ 
   }
-
-  .servicios-lista li span:first-child {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .servicios-lista li .precio-servicio {
-    color: #007bff;
-    font-weight: bold;
-    font-size: 1.1em;
-    margin-top: 10px; /* Empuja el precio hacia la parte inferior */
-  }
-  
-
+ 
   #form-agendar label,
   #form-calif label,
   #form-perfil label {
@@ -111,7 +85,6 @@ body {
     margin-top: 5px;     /* espacio desde el campo anterior */
     font-weight: bold;
     color: #555;
- 
   }
   #form-agendar select,
   #form-agendar input[type="date"],
@@ -132,11 +105,12 @@ body {
     border-radius: 5px;
     box-sizing: border-box;
   }
-  #agregarbarbero button[type="submit"],
+  
   #form-agendar button[type="submit"],
   #form-perfil button[type="submit"],
+  #filtro-citas button[type="button"],
   #form-calif button[type="submit"] {
-    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    align-items: center;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -144,36 +118,32 @@ body {
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s ease;
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
   }
   
-  #mis-citas,
-  #calificaciones table {
-    width: auto;
-    
-    border-collapse: collapse;
+  #mis-citas table {
+    width: 100%;
     margin-top: 20px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    justify-content: center;
   }
   
-  #estadisticas th,
-  #estadisticas td,
   #mis-citas th,
   #mis-citas td {
     padding: 10px 15px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #eee;
   }
-  #estadisticas th,
+  
   #mis-citas th {
     background-color: #f8f8f8;
     font-weight: bold;
   }
-  #estadisticas,
+  
   #mis-citas tbody tr:last-child td {
     border-bottom: none;
   }
-  
   
   #mis-citas tbody button {
     background-color: #dc3545;
@@ -203,24 +173,22 @@ body {
   }
 
   /* Estilos para la sección de llamada a la acción */
-.call-to-action {
+  
+  .call-to-action {
     background-color: #e0e4eb;
-   
     padding: 180px 160px;
     text-align: center;
     border-bottom: 1px solid #eee;
   }
-  
   .call-to-action h2 {
     color: #333;
     margin-bottom: 15px;
   }
-  
   .call-to-action p {
     color: #666;
     margin-bottom: 20px;
   }
-  
+
   .call-to-action button {
     background: linear-gradient(135deg, #8e2de2, #4a00e0);
     color: white;
@@ -281,45 +249,11 @@ body {
     color: #0056b3;
     text-decoration: underline;
   }
-  
-  /* Estilos para la sección de promociones */
-  .promotions-section {
-    padding: 30px 20px;
-    text-align: center;
-  }
-
-  .promotions-section h2{
-    padding: 20px;
-    text-align: center;
     
-    
-  
-    
-  }
-  
-  .promotion-card {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
-  .promotion-card button {
-    background: linear-gradient(135deg, #8e2de2, #4a00e0); /* Un color llamativo para los botones de promoción */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-  }
-    
-  
+  /* Estilo para las tarjetas de cada interfaz y centrarla */
   .formulario-centrado {
-    max-width: 440px;
-    margin: 50px auto; /* Centra horizontalmente */
+    max-width: 400px;
+    margin: 50px auto; 
     padding: 20px;
     background-color: #fff;
     border-radius: 15px;
@@ -329,67 +263,60 @@ body {
     gap: 8px;
   }
 
-  .main-header {
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: #ffffff;
-    padding: px;
-    text-align: center;
-  }
+#filtro-citas {
+  display: flex; /* Activa el contexto de Flexbox */
+  gap: 10px;      /* Espacio entre los elementos */
+  margin-bottom: 15px;
+  align-items: center; /* Alinea verticalmente los elementos al centro */
+  justify-content: center; /* Centra horizontalmente los elementos */
+}
 
-  .main-header h1 {
-    margin-top: 18px;
-    font-size: 28px;
-    color: #ffffff;
-    font-weight: bold;
-  }
+#filtro-citas label {
+  font-weight: bold;
+}
 
-  .main-header nav ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: background-color 0.3s;
-  }
+#filtro-citas select,
+#filtro-citas input[type="date"],
+#filtro-citas button {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-  .promo-detalle {
-  margin: 20px auto;
-  margin-top: 200px;
-  padding: 50px;
-  max-width: 500px;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background-color: #fefefe;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+#filtro-citas button {
+  background-color: #8e2de2; /* Un color morado similar al de la imagen */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#filtro-citas button:hover {
+  background-color: #4a00e0; /* Un tono de morado más oscuro al hacer hover */
 }
   </style>
 </head>
 <body>
 
   <header class="main-header">
-    <h1>Bienvenido a Classic Barber Club</h1>
+    <h1>Hola Barber Bienvenido a Classic Barber Club</h1>
     <nav>
       <ul>
         <li><a href="#" onclick="mostrarSeccion('inicio')">Inicio</a></li>
-        <li><a href="#" onclick="mostrarSeccion('servicios')">Servicios</a></li>
-        <li><a href="#" onclick="mostrarSeccion('agendar')">Agendar Cita</a></li>
         <li><a href="#" onclick="mostrarSeccion('mis-citas')">Mis Agenda</a></li>
         <li><a href="#" onclick="mostrarSeccion('perfil')">Mi Perfil</a></li>
-        <li><a href="#" onclick="mostrarSeccion('promociones')">Promociones</a></li>
-        <li><a href="#" onclick="mostrarSeccion('calificacion')">Calificanos</a></li>
+        <li><a href="#" onclick="mostrarSeccion('calificaciones')">Tus Calificaciones</a></li>
         <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a></li>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
       </ul>
     </nav>
   </header>
 
-  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-  </form>
-
   <section id="anuncio" class="call-to-action">
-    <h2>¿Listo para un corte de primera?</h2>
-    <p>Agenda tu cita hoy mismo y experimenta el mejor servicio de barbería.</p>
-    <button onclick="mostrarSeccion('agendar')">Agendar Cita Ahora</button>
+    <h2>¿Desea revisar su agenda del dia?</h2>
+    <p>Revise sus citas pendientes relacionadas a sus clientes.</p>
+    <button onclick="mostrarSeccion('mis-citas')">Mirar agenda ahora</button>
   </section>
 
   <main>
@@ -397,145 +324,63 @@ body {
     <!-- Seccion de inicio -->
 
     <section id="inicio" class="services-with-prices">
-      <h2>Nuestros Servicios y Precios</h2>
+      <h2>Calificaciones Tuyas</h2>
       <ul class="services-list">
         <li>
-          <h3>Corte Clásico</h3>
-          <p>Un corte de cabello tradicional para un look impecable.</p>
-          <span class="price">$14.000</span>
+          <h3>Jaime Perea</h3>
+          <p>Buen barbero y detallista pero me corto un poco.</p>
+          <span class="price"> ⭐ 4</span>
         </li>
         <li>
-          <h3>Barba Completa</h3>
-          <p>Afeitado y arreglo de barba con productos de calidad.</p>
-          <span class="price">$8.000</span>
+          <h3>Jose Pinto</h3>
+          <p>Exelente Corte de Cabello.</p>
+          <span class="price">⭐ 5</span>
         </li>
         <li>
-          <h3>Corte + Barba</h3>
-          <p>El paquete completo para un cambio de imagen total.</p>
-          <span class="price">$25.000</span>
+          <h3>Rigo Bolaños</h3>
+          <p>Me corto mas de lo que debia.</p>
+          <span class="price">⭐ 4</span>
         </li>
       </ul>
-      <p class="view-all-services"><a href="#" onclick="mostrarSeccion('servicios')">Ver todos los servicios</a></p>
+      <p class="view-all-services"><a href="#" onclick="mostrarSeccion('calificaciones')">Ver todas las calificaciones</a></p>
     </section>
 
-    <!-- Seccion de servicios -->
-
-    <section id="servicios" class="hidden">
-      <h2>Servicios Disponibles</h2>
-      <ul class="servicios-lista">
-        <li>
-          <span>Cortes clásicos</span>
-          <img src="Images/corte.png" alt="Corte Clásico">
-          <span class="precio-servicio">$14.000</span>
-        </li>
-        <li>
-          <span>Barba completa</span>
-          <img src="Images/barba.png">
-          <span class="precio-servicio">$8.000</span>
-        </li>
-        <li>
-          <span>Corte + Barba</span>
-          <img src="Images/xwOYLXEQ8G2F2cjz.png">
-          <span class="precio-servicio">$21.000</span>
-        </li>
-        <li>
-          <span>Limpieza Facial</span>
-          <img src="Images/liempieza.PNG">
-          <span class="precio-servicio">$10.000</span>
-        </li>
-        <li>
-          <span>Depilado de Cejas</span>
-          <img src="Images/cejas.PNG">
-          <span class="precio-servicio">$3.000</span>
-        </li>
-        <li>
-          <span>Tinte de Cabello</span>
-          <img src="Images/Tinturado.PNG">
-          <span class="precio-servicio">$80.000</span>
-        </li>
-        <li>
-          <span>Rayos para el Cabello</span>
-          <img src="Images/rayos.jpg">
-          <span class="precio-servicio">$80.000</span>
-        </li>
-      </ul>
-    </section>
-
-    <!-- Seccion de agendar -->
-    <section id="agendar" class="hidden">
-      <h2>Agendar Cita</h2>
-      <form id="form-agendar" action="{{ route('appointments.store') }}" method="POST" class="formulario-centrado">
-        @csrf
-        <label for="barbero">Seleccionar Barbero:</label>
-        <select id="barbero" name="barber_id" required>
-          <option value="">-- Selecciona --</option>
-          <option value="1">Carlos</option>
-          <option value="2">Andrés</option>
-          <option value="3">Felipe</option>
-        </select>
-
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="scheduled_date" required>
-
-        <label for="hora">Hora:</label>
-        <input type="time" id="hora" name="scheduled_time" required>
-
-        <label for="servicio">Servicio:</label>
-        <select id="servicio" name="service_id" required>
-          <option value="">-- Selecciona --</option>
-          <option value="1">Corte Clásico</option>
-          <option value="2">Barba Completa</option>
-          <option value="3">Corte + Barba</option>
-        </select>
-
-        <button type="submit">Reservar Cita</button>
-      </form>
-    </section>
+    <!-- Seccion de citas -->
 
     <section id="mis-citas" class="hidden">
-      <h2>Mis Citas</h2>
-      @if($appointments->isEmpty())
-        <p>No tienes citas agendadas.</p>
-      @else
-        <table>
-          <thead>
-            <tr>
-              <th>ID Cita</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              <th>Barbero</th>
-              <th>Servicio</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($appointments as $appointment)
-              <tr>
-                <td>{{ $appointment->appointment_id }}</td>
-                <td>{{ $appointment->scheduled_at->format('Y-m-d') }}</td>
-                <td>{{ $appointment->scheduled_at->format('H:i') }}</td>
-                <td>{{ $appointment->barber->name }}</td>
-                <td>{{ $appointment->service->name }}</td>
-                <td>{{ ucfirst($appointment->status) }}</td>
-                <td>
-                  <form action="{{ route('appointments.destroy', $appointment->appointment_id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" onclick="return confirm('¿Estás seguro de cancelar esta cita?')">Cancelar</button>
-                  </form>
-                  <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
-                  </form>
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      @endif
-    </section>
+  <h2>Mis Citas</h2>
+  <div id="filtro-citas">
+    <label for="filtrarPor">Filtrar por:</label>
+    <select id="filtrarPor">
+      <option value="hoy">Citas de Hoy</option>
+      <option value="fecha">Fecha Específica</option>
+    </select>
+    <input type="date" id="fechaEspecifica" class="hidden">
+    <button id="botonFiltrar" type="button"> Filtrar</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID cita</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Cliente</th>
+        <th>Servicio</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody id="tablaCitasBody">
+      <tr>
+        <td>1</td>
+        <td>2025-05-03</td>
+        <td>15:30</td>
+        <td>Carlos</td>
+        <td>Corte</td>
+        <td>Confirmada</td>
+      </tr>
+      </tbody>
+  </table>
+</section>
 
     <!-- Seccion de perfil -->
     <section id="perfil" class="hidden">
@@ -563,81 +408,43 @@ body {
       </form>
     </section>
 
-    <section id="promociones" class="hidden promotions-section">
-      <h2>¡Nuestras Promociones Especiales!</h2>
-      <div class="promotion-card", >
-        <h3>Descuento de Bienvenida</h3>
-        <p>15% de descuento en tu primer corte.</p>
-        <button onclick="mostrarDetalle('detalle-bienvenida')">Ver Detalles</button>
-      </div>
-      <div class="promotion-card">
-        <h3>Martes de Barba</h3>
-        <p>Arreglo de barba a mitad de precio todos los martes.</p>
-        <button onclick="mostrarDetalle('detalle-martes')">Ver Detalles</button>
-      </div>
-      <div class="promotion-card">
-        <h3>Paquete Familiar</h3>
-        <p>Corte para papá e hijo con un precio especial.</p>
-        <button onclick="mostrarDetalle('detalle-familiar')">Ver Detalles</button>
-      </div>
-
-
-          <!-- Tarjeta de detalles: Descuento de Bienvenida -->
-<div id="detalle-bienvenida" class="promo-detalle hidden">
-  <h3>Descuento de Bienvenida</h3>
-  <p><strong>Descripción:</strong> 15% de descuento en tu primer corte.</p>
-  <p><strong>Descuento:</strong> 15%</p>
-  <p><strong>Fecha de Inicio:</strong> 01/05/2025</p>
-  <p><strong>Fecha de Fin:</strong> 30/06/2025</p>
-  <p><strong>Usos Máximos:</strong> 1 por persona</p>
-</div>
-
-<!-- Tarjeta de detalles: Martes de Barba -->
-<div id="detalle-martes" class="promo-detalle hidden">
-  <h3>Martes de Barba</h3>
-  <p><strong>Descripción:</strong> Arreglo de barba a mitad de precio todos los martes.</p>
-  <p><strong>Descuento:</strong> 50%</p>
-  <p><strong>Fecha de Inicio:</strong> 01/05/2025</p>
-  <p><strong>Fecha de Fin:</strong> 31/12/2025</p>
-  <p><strong>Usos Máximos:</strong> Ilimitado (solo martes)</p>
-</div>
-
-<!-- Tarjeta de detalles: Paquete Familiar -->
-<div id="detalle-familiar" class="promo-detalle hidden">
-  <h3>Paquete Familiar</h3>
-  <p><strong>Descripción:</strong> Corte para papá e hijo con un precio especial.</p>
-  <p><strong>Descuento:</strong> 20%</p>
-  <p><strong>Fecha de Inicio:</strong> 10/05/2025</p>
-  <p><strong>Fecha de Fin:</strong> 10/07/2025</p>
-  <p><strong>Usos Máximos:</strong> 2 por familia</p>
-</div>
-
-<!-- Seccion de calificaciones de los barberos -->
- 
-    <section id="calificacion" class="hidden">
-      <h2>Califica tu experiencia</h2>
-      <form id="form-calif" class="formulario-centrado">
-        <label for="idCita">ID de la Cita:</label>
-        <input type="number" id="idCita" name="idCita" required><br>
-    
-        <label for="puntuacion">Puntuación (1 a 5):</label>
-        <select type="numberr" id="puntuacion" name="puntuacion" required>
-          <option value="">Selecciona</option>
-          <option value="1">1 - Muy malo</option>
-          <option value="2">2 - Malo</option>
-          <option value="3">3 - Regular</option>
-          <option value="4">4 - Bueno</option>
-          <option value="5">5 - Excelente</option>
-        </select><br>
-    
-        <label for="comentario">Comentario:</label>
-        <textarea type="comentario" id="comentario" name="comentario" rows="4"></textarea><br>
-    
-      
-    
-        <button type="submit">Enviar Calificación</button>
-      </form>
-    </section>
+    <section id="calificaciones" class="hidden">
+            <h2>Calificaciones de Clientes</h2>
+            <div class="formulario-centrado">
+              <div>
+                
+                <!-- Tarjeta 1 -->
+                <div>
+                  <div>
+                    <h3>Carlos Perea</h3>
+                    <p>Calificación: ⭐ 4</p>
+                  </div>
+                  <a href="#" class="text-indigo-600 hover:underline">Ver más</a>
+                </div>
+                
+                <!-- Tarjeta 2 -->
+                <div>
+                  <div>
+                    <h3>Camilo Gonzales</h3>
+                    <p>Calificación: ⭐ 4</p>
+                  </div>
+                  <a href="#" class="text-indigo-600 hover:underline">Ver más</a>
+                </div>
+          
+                <!-- Tarjeta 3 -->
+                <div >
+                  <div>
+                    <h3>Andrés Ramirez</h3>
+                    <p>Calificación: ⭐ 3</p>
+                  </div>
+                  <a href="#" class="text-indigo-600 hover:underline">Ver más</a>
+                </div>
+          
+                <!-- Puedes seguir agregando más barberos aquí -->
+          
+              </div>
+            </div>
+          </section>
 
   </main>
 
@@ -677,6 +484,62 @@ body {
       tarjeta.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+  const filtrarPorSelect = document.getElementById('filtrarPor');
+  const fechaEspecificaInput = document.getElementById('fechaEspecifica');
+  const botonFiltrar = document.getElementById('botonFiltrar');
+  const tablaCitasBody = document.getElementById('tablaCitasBody');
+  const citasOriginales = Array.from(tablaCitasBody.rows).map(row => {
+    return {
+      fecha: row.cells[1].textContent,
+      hora: row.cells[2].textContent,
+      cliente: row.cells[3].textContent,
+      servicio: row.cells[4].textContent,
+      estado: row.cells[5].textContent,
+      rowElement: row
+    };
+  });
+
+  filtrarPorSelect.addEventListener('change', () => {
+    fechaEspecificaInput.classList.toggle('hidden', filtrarPorSelect.value !== 'fecha');
+  });
+
+  botonFiltrar.addEventListener('click', () => {
+    const filtroSeleccionado = filtrarPorSelect.value;
+    let fechaFiltrar;
+
+    if (filtroSeleccionado === 'hoy') {
+      const hoy = new Date();
+      const año = hoy.getFullYear();
+      const mes = (hoy.getMonth() + 1).toString().padStart(2, '0');
+      const dia = hoy.getDate().toString().padStart(2, '0');
+      fechaFiltrar = `${año}-${mes}-${dia}`;
+    } else if (filtroSeleccionado === 'fecha') {
+      fechaFiltrar = fechaEspecificaInput.value;
+    }
+
+    // Limpiar la tabla
+    tablaCitasBody.innerHTML = '';
+
+    // Filtrar y mostrar las citas
+    citasOriginales.forEach(cita => {
+      if (!fechaFiltrar || cita.fecha === fechaFiltrar) {
+        tablaCitasBody.appendChild(cita.rowElement);
+      }
+    });
+
+    if (tablaCitasBody.rows.length === 0) {
+      const noCitasRow = tablaCitasBody.insertRow();
+      const noCitasCell = noCitasRow.insertCell();
+      noCitasCell.colSpan = 6;
+      noCitasCell.textContent = 'No hay citas para la fecha seleccionada.';
+      noCitasCell.style.textAlign = 'center';
+    }
+  });
+});
+
   </script>
 
 </body>

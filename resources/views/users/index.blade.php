@@ -511,39 +511,40 @@ body {
       </ul>
     </section>
 
-    <!-- Seccion de agendar -->
-    <section id="agendar" class="hidden">
-      <h2>Agendar Cita</h2>
-      <form id="form-agendar" class="formulario-centrado">
-        <label for="barbero">Seleccionar Barbero:</label>
-        <select type="select" id="barbero" name="barbero">
-          <option value="">-- Selecciona --</option>
-          <option value="1">Carlos</option>
-          <option value="2">Andrés</option>
-          <option value="3">Felipe</option>
-        </select>
+<!-- Seccion de agendar -->
+<section id="agendar" class="hidden">
+  <h2>Agendar Cita</h2>
+  <form id="form-agendar" class="formulario-centrado">
+    <!-- Selección de barbero -->
+    <label for="barbero">Seleccionar Barbero:</label>
+    <select type="select" id="barbero" name="barbero">
+      <option value="">-- Selecciona --</option>
+      @foreach($barbers as $barber)
+        <option value="{{ $barber->id }}">{{ $barber->first_name }} {{ $barber->last_name }}</option>
+      @endforeach
+    </select>
 
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" required>
+    <!-- Selección de fecha -->
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha" required>
 
-        <label for="hora">Hora:</label>
-        <input type="time" id="hora" name="hora" required>
+    <!-- Selección de hora -->
+    <label for="hora">Hora:</label>
+    <input type="time" id="hora" name="hora" required min="08:00" max="10:00">
 
-        <label for="servicio">Servicio:</label>
-        <select type="select" id="servicio" name="servicio">
-          <option value="">-- Selecciona --</option>
-          <option value="corte">Corte Clásico</option>
-          <option value="barba">Barba Completa</option>
-          <option value="combo">Corte + Barba</option>
-          <option value="combo">Limpieza Facial</option>
-          <option value="combo">Despilacion de Cejas</option>
-          <option value="combo">Tintura de Cabello</option>
-          <option value="combo">Rayos para el Cabello</option>
-        </select>
+    <!-- Selección de servicio -->
+    <label for="servicio">Servicio:</label>
+    <select type="select" id="servicio" name="servicio">
+      <option value="">-- Selecciona --</option>
+      @foreach($services as $service)
+        <option value="{{ $service->id }}">{{ $service->name }} - ${{ number_format($service->price, 0, ',', '.') }}</option>
+      @endforeach
+    </select>
 
-        <button type="submit">Reservar Cita</button>
-      </form>
-    </section>
+    <!-- Botón para enviar el formulario -->
+    <button type="submit">Reservar Cita</button>
+  </form>
+</section>
 
     <section id="mis-citas" class="hidden">
       <h2>Mis Citas</h2>
@@ -576,8 +577,9 @@ body {
     <!-- Seccion de perfil -->
     <section id="perfil" class="hidden">
       <h2>Mi Perfil</h2>
-      <form id="form-perfil" class="formulario-centrado" method="POST" action="{{ route('user.update') }}">
+<form id="form-perfil" class="formulario-centrado" method="POST" action="{{ route('user.update', $user->user_id) }}">
         @csrf
+        @method('PUT')
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="first_name" value="{{ $user->first_name }}" required>
 
@@ -722,6 +724,33 @@ body {
       tarjeta.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const fechaInput = document.getElementById('fecha');
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0'); // Mes en formato 2 dígitos
+    const dia = String(hoy.getDate()).padStart(2, '0'); // Día en formato 2 dígitos
+    const fechaActual = `${anio}-${mes}-${dia}`;
+    
+    // Establecer la fecha mínima en el campo de fecha
+    fechaInput.setAttribute('min', fechaActual);
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const horaInput = document.getElementById('hora');
+
+    horaInput.addEventListener('change', function () {
+      const horaSeleccionada = this.value;
+      const horaMinima = "08:00";
+      const horaMaxima = "10:00";
+
+      if (horaSeleccionada < horaMinima || horaSeleccionada > horaMaxima) {
+        alert("Por favor selecciona una hora entre las 08:00AM y las 10:00PM.");
+        this.value = ""; // Restablece el campo si la hora no es válida
+      }
+    });
+  });
   </script>
 
 </body>

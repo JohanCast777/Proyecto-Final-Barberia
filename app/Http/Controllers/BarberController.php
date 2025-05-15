@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Barber; // Asegúrate de importar el modelo Barber
 use App\Models\Appointment; // Asegúrate de importar el modelo Appointment
+use App\Models\User; // Asegúrate de importar el modelo User
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
+
 
 class BarberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
+        
+        
+        
         $query = \App\Models\Barber::with('user');
 
         if ($request->filled('search')) {

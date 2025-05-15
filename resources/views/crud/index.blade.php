@@ -1,4 +1,4 @@
-x{{-- filepath: resources/views/admin/volunteers.blade.php --}}
+{{-- filepath: resources/views/admin/volunteers.blade.php --}}
 
 
 @section('content')
@@ -83,7 +83,9 @@ x{{-- filepath: resources/views/admin/volunteers.blade.php --}}
 
     {{-- Paginación --}}
     <div class="d-flex justify-content-center">
-        {{ $volunteers->links() }}
+        <nav aria-label="Page navigation example">
+            {{ $volunteers->links('pagination::bootstrap-5') }}
+        </nav>
     </div>
 </div>
 
@@ -141,7 +143,7 @@ x{{-- filepath: resources/views/admin/volunteers.blade.php --}}
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
-          <input type="hidden" name="user_id" id="edit_user_id">
+        <input type="hidden" name="id" id="edit_user_id">
           <div class="mb-3">
             <label for="edit_first_name" class="form-label">Nombre</label>
             <input type="text" name="first_name" id="edit_first_name" class="form-control" required>
@@ -157,6 +159,57 @@ x{{-- filepath: resources/views/admin/volunteers.blade.php --}}
           <div class="mb-3">
             <label for="edit_phone" class="form-label">Teléfono</label>
             <input type="text" name="phone" id="edit_phone" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-warning">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para editar voluntario -->
+<div class="modal fade" id="editarVoluntarioModal" tabindex="-1" aria-labelledby="editarVoluntarioModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="editarVoluntarioForm" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarVoluntarioModalLabel">Editar voluntario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="user_id" id="edit_user_id">
+          <div class="mb-3">
+            <label for="edit_first_name" class="form-label">Nombre</label>
+            <input type="text" name="first_name" id="edit_first_name" class="form-control" required>
+            @error('first_name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+          </div>
+          <div class="mb-3">
+            <label for="edit_last_name" class="form-label">Apellido</label>
+            <input type="text" name="last_name" id="edit_last_name" class="form-control" required>
+            @error('last_name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+          </div>
+          <div class="mb-3">
+            <label for="edit_email" class="form-label">Correo</label>
+            <input type="email" name="email" id="edit_email" class="form-control" required>
+            @error('email')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+          </div>
+          <div class="mb-3">
+            <label for="edit_phone" class="form-label">Teléfono</label>
+            <input type="text" name="phone" id="edit_phone" class="form-control" required>
+            @error('phone')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
           </div>
         </div>
         <div class="modal-footer">
@@ -185,8 +238,20 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('edit_email').value = email;
         document.getElementById('edit_phone').value = phone;
 
-        // Cambia la acción del formulario dinámicamente
-        document.getElementById('editarVoluntarioForm').action = '/users/' + id;
+        // Cambia la acción del formulario dinámicamente usando Laravel route helper
+        var form = document.getElementById('editarVoluntarioForm');
+        var actionTemplate = form.getAttribute('data-action-template');
+        if (!actionTemplate) {
+            // Set the template attribute once
+            actionTemplate = "{{ route('user.update', ['user' => ':id']) }}";
+            form.setAttribute('data-action-template', actionTemplate);
+        }
+        form.action = actionTemplate.replace(':id', id);
+        // Remove any input named 'user' with value ':id' to avoid conflict
+        var userInput = form.querySelector('input[name="user"]');
+        if (userInput) {
+            userInput.parentNode.removeChild(userInput);
+        }
     });
 });
 </script>

@@ -9,16 +9,25 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Service;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+     public function index()
     {
         $user = auth()->user(); // Obtiene el usuario autenticado
-        return view('users.index', compact('user')); // Pasa los datos del usuario a la vista
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Por favor, inicie sesión para acceder.');
+        }
+        $barbers = User::where('role', 'barber')->get();
+        $services = Service::all(); // Obtener todos los servicios
+            
+        return view('users.index', compact('user', 'barbers', 'services')); // Pasa los datos del usuario a la vista
+        // Obtener los usuarios con el rol 'barber'
+    
     }
 
     /**

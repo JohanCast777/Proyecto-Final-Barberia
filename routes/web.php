@@ -26,7 +26,7 @@ Route::get('/SignUp', [SignupController::class, 'showSignupForm'])->name('Signup
 Route::post('/Signuppost', [SignupController::class, 'processSignup'])->name('signup.process'); 
 
 Route::resource('users', UserController::class)->names('user');
-Route::resource('barbers', BarberController::class)->names('barber');
+Route::resource('barbers', BarberController::class)->names('barber')->middleware('auth');
 Route::resource('services', ServiceController::class)->names('service');
 Route::resource('workhours', WorkHourController::class)->names('workhour');
 Route::resource('nonworkingdays', NonWorkingDayController::class)->names('nonworkingday');
@@ -46,7 +46,7 @@ Route::get('/crudPagos', [App\Http\Controllers\CrudController::class, 'pagos'])-
 Route::get('/crudCalificaciones', [App\Http\Controllers\CrudController::class, 'calificaciones'])->name('crud.calificaciones');
 Route::get('/crudPromociones', [App\Http\Controllers\CrudController::class, 'promociones'])->name('crud.promociones');
 
-Route::get('/barbers', [BarberController::class, 'index'])->name('barbers.index');
+
 Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
 Route::post('/users/update', [UserController::class, 'updateProfile'])->name('user.update');
