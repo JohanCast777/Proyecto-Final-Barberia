@@ -514,13 +514,14 @@ body {
 <!-- Seccion de agendar -->
 <section id="agendar" class="hidden">
   <h2>Agendar Cita</h2>
-  <form id="form-agendar" class="formulario-centrado">
-    <!-- Selección de barbero -->
+  <form id="form-agendar" class="formulario-centrado" method="POST" action="{{ route('appointments.store') }}">
+  @csrf  
+  <!-- Selección de barbero -->
     <label for="barbero">Seleccionar Barbero:</label>
     <select type="select" id="barbero" name="barbero">
       <option value="">-- Selecciona --</option>
       @foreach($barbers as $barber)
-        <option value="{{ $barber->id }}">{{ $barber->first_name }} {{ $barber->last_name }}</option>
+        <option value="{{ $barber->user_id }}">{{ $barber->first_name }} {{ $barber->last_name }}</option>
       @endforeach
     </select>
 
@@ -530,14 +531,14 @@ body {
 
     <!-- Selección de hora -->
     <label for="hora">Hora:</label>
-    <input type="time" id="hora" name="hora" required min="08:00" max="10:00">
+    <input type="time" id="hora" name="hora" required min="08:00" max="22:00">
 
     <!-- Selección de servicio -->
     <label for="servicio">Servicio:</label>
     <select type="select" id="servicio" name="servicio">
       <option value="">-- Selecciona --</option>
       @foreach($services as $service)
-        <option value="{{ $service->id }}">{{ $service->name }} - ${{ number_format($service->price, 0, ',', '.') }}</option>
+        <option value="{{ $service->service_id }}">{{ $service->name }} - ${{ number_format($service->price, 0, ',', '.') }}</option>
       @endforeach
     </select>
 
@@ -599,7 +600,7 @@ body {
         <input type="password" id="contrase_confirmation" name="password_confirmation">
 
         <label for="fecha-registro">Fecha de Registro:</label>
-        <input type="text" id="fecha-registro" name="fecha-registro" value="{{ $user->registered_at }}" readonly>
+        <input type="text" id="fecha-registro" name="fecha-registro" value="{{ $user->registered_at ? $user->registered_at->format('Y-m-d') : '' }}" readonly>
 
         <button type="submit">Actualizar Perfil</button>
       </form>
@@ -743,7 +744,7 @@ body {
     horaInput.addEventListener('change', function () {
       const horaSeleccionada = this.value;
       const horaMinima = "08:00";
-      const horaMaxima = "10:00";
+      const horaMaxima = "22:00";
 
       if (horaSeleccionada < horaMinima || horaSeleccionada > horaMaxima) {
         alert("Por favor selecciona una hora entre las 08:00AM y las 10:00PM.");

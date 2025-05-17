@@ -17,9 +17,14 @@ class Appointment extends Model
     public $incrementing = true; // La clave primaria es autoincremental
 
     protected $fillable = [
+        'client_id',
         'barber_id',
         'service_id',
         'scheduled_at',
+        'estimated_duration',
+        'status', 
+        'notes',
+
     ];
 
     protected $casts = [
@@ -39,7 +44,7 @@ class Appointment extends Model
      */
     public function barber()
     {
-        return $this->belongsTo(Barber::class, 'barber_id', 'barber_id');
+        return $this->belongsTo(User::class, 'barber_id', 'user_id');
     }
 
     /**

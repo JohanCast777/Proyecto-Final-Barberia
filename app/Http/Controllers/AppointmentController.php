@@ -25,7 +25,7 @@ class AppointmentController extends Controller
     public function create()
     {
         $clients = User::where('role', 'client')->get(); // Obtén todos los clientes
-        $barbers = Barber::all(); // Obtén todos los barberos
+        $barbers = User::where('role', 'barber')->get(); // Obtén todos los barberos
         $services = Service::all(); // Obtén todos los servicios
         return view('appointments.create', compact('clients', 'barbers', 'services')); // Pasa los datos a la vista
     }
@@ -37,18 +37,26 @@ class AppointmentController extends Controller
     {
         // Validar los datos del formulario
         $validated = $request->validate([
-            'barber_id' => 'required|exists:barbers,barber_id',
-            'service_id' => 'required|exists:services,service_id',
-            'scheduled_date' => 'required|date|after_or_equal:today',
-            'scheduled_time' => 'required',
+            'barbero' => 'required|exists:users,user_id',
+            'servicio' => 'required|exists:services,service_id',
+            'fecha' => 'required|date|after_or_equal:today',
+            'hora' => 'required',
         ]);
 
-        // Combinar fecha y hora en un solo campo
-        $validated['scheduled_at'] = $validated['scheduled_date'] . ' ' . $validated['scheduled_time'];
-        unset($validated['scheduled_date'], $validated['scheduled_time']);
+        // Obtener duración del servicio
+        $service = \App\Models\Service::where('service_id', $request->servicio)->first();
+        $duration = $service ? $service->duration_minutes : 30; // Valor por defecto si no existe
 
-        // Guardar la cita en la base de datos
-        Appointment::create($validated);
+        // Guardar la cita
+        \App\Models\Appointment::create([
+            'client_id' => auth()->user()->user_id,
+            'barber_id' => $request->barbero,
+            'service_id' => $request->servicio,
+            'scheduled_at' => $request->fecha . ' ' . $request->hora,
+            'estimated_duration' => $duration,
+            'status' => 'pending',
+            'notes' => null,
+        ]);
 
         // Redirigir con un mensaje de éxito
         return redirect()->back()->with('success', 'Cita agendada exitosamente.');

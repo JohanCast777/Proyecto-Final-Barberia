@@ -22,28 +22,8 @@ class BarberController extends Controller
 
     public function index(Request $request)
     {
-        
-        
-        
-        $query = \App\Models\Barber::with('user');
-
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->whereHas('user', function($q) use ($search) {
-                $q->where('first_name', 'like', "%$search%")
-                  ->orWhere('last_name', 'like', "%$search%")
-                  ->orWhere('email', 'like', "%$search%")
-                  ->orWhere('phone', 'like', "%$search%");
-            });
-        }
-
-        $barbers = $query->orderBy('created_at', 'desc')->paginate(10);
-
-        // Obtén las citas (appointments) desde la base de datos
-        $appointments = Appointment::all(); // Cambia esto según tu lógica
-
-        // Retorna la vista con la variable $appointments
-        return view('barbers.index', compact('barbers', 'appointments'));
+        $barber = auth()->user(); // Suponiendo que el barbero es un usuario autenticado
+        return view('barbers.index', compact('barber'));
     }
 
     /**

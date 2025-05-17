@@ -386,26 +386,26 @@ body {
     <section id="perfil" class="hidden">
       <h2>Mi Perfil</h2>
       <form id="form-perfil" class="formulario-centrado">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ $barber->first_name ?? '' }}">
 
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name ="apellido">
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" value="{{ $barber->last_name ?? '' }}">
 
-        <label for="correo">Correo electrónico:</label>
-        <input type="email" id="correo" name="correo" value="juan@example.com">
+    <label for="correo">Correo electrónico:</label>
+    <input type="email" id="correo" name="correo" value="{{ $barber->email ?? '' }}">
 
-        <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" value="3200000000">
+    <label for="telefono">Teléfono:</label>
+    <input type="tel" id="telefono" name="telefono" value="{{ $barber->phone ?? '' }}">
 
-        <label for="contrase">Contraseña:</label>
-        <input type="password" id="contrase" name="contraseña">
-        
-        <label for="fecha-registro">Fecha de Registro:</label>
-        <input type="text" id="fecha-registro" name="fecha-registro" readonly>
+    <label for="contrase">Contraseña:</label>
+    <input type="password" id="contrase" name="contraseña">
 
-        <button type="submit">Actualizar Perfil</button>
-      </form>
+    <label for="fecha-registro">Fecha de Registro:</label>
+    <input type="text" id="fecha-registro" name="fecha-registro" value="{{ $barber->registered_at ? $barber->registered_at->format('Y-m-d') : '' }}" readonly>
+
+    <button type="submit">Actualizar Perfil</button>
+</form>
     </section>
 
     <section id="calificaciones" class="hidden">
