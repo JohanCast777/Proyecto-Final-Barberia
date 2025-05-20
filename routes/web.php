@@ -49,4 +49,6 @@ Route::get('/crudPromociones', [App\Http\Controllers\CrudController::class, 'pro
 
 Route::post('/appointments', [App\Http\Controllers\AppointmentController::class, 'store'])->name('appointments.store');
 Route::get('/users', [UserController::class, 'index'])->name('user.index');
-Route::post('/users/update', [UserController::class, 'updateProfile'])->name('user.update');
+Route::put('/users/{user}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+
+Route::put('/crud/{user}', [App\Http\Controllers\CrudController::class, 'update'])->name('crud.update');

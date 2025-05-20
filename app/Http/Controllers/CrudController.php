@@ -17,7 +17,7 @@ class CrudController extends Controller
 {
     
     //USUARIOS 
-public function index(Request $request)
+    public function index(Request $request)
     {
         // Show all users regardless of role
         $query = User::query();
@@ -177,5 +177,38 @@ public function index(Request $request)
         $promotions = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('promotions.index', compact('promotions'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $rules = [
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'email' => 'required|email|unique:users,email,'.$id.',user_id',
+            'phone' => 'required|string|regex:/^\d{10}$/|unique:users,phone',
+        ];
+
+        if ($request->filled('password')) {
+            $rules['password'] = 'string|min:8|confirmed';
+        }
+
+        $request->validate($rules);
+
+        $user = User::findOrFail($id);
+
+        $data = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $user->update($data);
+
+        return redirect()->route('crud.index')->with('success', 'Usuario actualizado correctamente.');
     }
 }

@@ -60,7 +60,7 @@
                             >
                                 Editar
                             </button>
-                            <form action="{{ route('barber.destroy', $barber->barber_id) }}" method="POST" style="display:inline;">
+<form action="{{ route('barbers.destroy', $barber->barber_id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
@@ -85,7 +85,7 @@
 <div class="modal fade" id="crearBarberoModal" tabindex="-1" aria-labelledby="crearBarberoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form action="{{ route('barber.store') }}" method="POST">
+<form action="{{ route('barbers.store') }}" method="POST">
         @csrf
         <div class="modal-header">
           <h5 class="modal-title" id="crearBarberoModalLabel">Registrar nuevo barbero</h5>
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('edit_phone').value = phone;
 
         // Cambia la acción del formulario dinámicamente
-        document.getElementById('editarBarberoForm').action = '/barber/' + id;
+document.getElementById('editarBarberoForm').action = '/barbers/' + id;
     });
 });
 </script>

@@ -370,15 +370,31 @@ body {
       </tr>
     </thead>
     <tbody id="tablaCitasBody">
+      @forelse($appointments as $appointment)
       <tr>
-        <td>1</td>
-        <td>2025-05-03</td>
-        <td>15:30</td>
-        <td>Carlos</td>
-        <td>Corte</td>
-        <td>Confirmada</td>
+        <td>{{ $appointment->appointment_id }}</td>
+        <td>{{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('Y-m-d') }}</td>
+        <td>{{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('H:i') }}</td>
+        <td>
+          @php
+            $client = $clients->firstWhere('user_id', $appointment->client_id);
+          @endphp
+          {{ $client ? $client->first_name . ' ' . $client->last_name : 'N/A' }}
+        </td>
+        <td>
+          @php
+            $service = $services->firstWhere('service_id', $appointment->service_id);
+          @endphp
+          {{ $service ? $service->name : 'N/A' }}
+        </td>
+        <td>{{ $appointment->status }}</td>
       </tr>
-      </tbody>
+      @empty
+      <tr>
+        <td colspan="6">No hay citas para mostrar.</td>
+      </tr>
+      @endforelse
+    </tbody>
   </table>
 </section>
 
@@ -493,11 +509,11 @@ body {
   const tablaCitasBody = document.getElementById('tablaCitasBody');
   const citasOriginales = Array.from(tablaCitasBody.rows).map(row => {
     return {
-      fecha: row.cells[1].textContent,
-      hora: row.cells[2].textContent,
-      cliente: row.cells[3].textContent,
-      servicio: row.cells[4].textContent,
-      estado: row.cells[5].textContent,
+      fecha: row.cells[1].textContent.trim(),
+      hora: row.cells[2].textContent.trim(),
+      cliente: row.cells[3].textContent.trim(),
+      servicio: row.cells[4].textContent.trim(),
+      estado: row.cells[5].textContent.trim(),
       rowElement: row
     };
   });
@@ -506,7 +522,7 @@ body {
     fechaEspecificaInput.classList.toggle('hidden', filtrarPorSelect.value !== 'fecha');
   });
 
-  botonFiltrar.addEventListener('click', () => {
+  function aplicarFiltro() {
     const filtroSeleccionado = filtrarPorSelect.value;
     let fechaFiltrar;
 
@@ -524,22 +540,31 @@ body {
     tablaCitasBody.innerHTML = '';
 
     // Filtrar y mostrar las citas
-    citasOriginales.forEach(cita => {
-      if (!fechaFiltrar || cita.fecha === fechaFiltrar) {
-        tablaCitasBody.appendChild(cita.rowElement);
-      }
+    let citasFiltradas = citasOriginales.filter(cita => {
+      if (!fechaFiltrar) return true;
+      return cita.fecha === fechaFiltrar;
     });
 
-    if (tablaCitasBody.rows.length === 0) {
+    if (citasFiltradas.length === 0) {
       const noCitasRow = tablaCitasBody.insertRow();
       const noCitasCell = noCitasRow.insertCell();
       noCitasCell.colSpan = 6;
-      noCitasCell.textContent = 'No hay citas para la fecha seleccionada.';
+      noCitasCell.textContent = filtroSeleccionado === 'hoy'
+        ? 'No hay citas para hoy.'
+        : 'No hay citas para la fecha seleccionada.';
       noCitasCell.style.textAlign = 'center';
+    } else {
+      citasFiltradas.forEach(cita => {
+        tablaCitasBody.appendChild(cita.rowElement);
+      });
     }
-  });
-});
+  }
 
+  botonFiltrar.addEventListener('click', aplicarFiltro);
+
+  // Ejecutar el filtro automáticamente al cargar la página
+  aplicarFiltro();
+});
   </script>
 
 </body>

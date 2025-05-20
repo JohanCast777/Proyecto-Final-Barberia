@@ -24,8 +24,13 @@ class UserController extends Controller
         }
         $barbers = User::where('role', 'barber')->get();
         $services = Service::all(); // Obtener todos los servicios
+
+    // Traer las citas del usuario actual
+    $appointments = \DB::table('appointments')
+        ->where('client_id', $user->user_id)
+        ->get();     
             
-        return view('users.index', compact('user', 'barbers', 'services')); // Pasa los datos del usuario a la vista
+        return view('users.index', compact('user', 'barbers', 'services', 'appointments')); // Pasa los datos del usuario a la vista
         // Obtener los usuarios con el rol 'barber'
     
     }
@@ -122,22 +127,34 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $rules = [
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'email' => 'required|email|unique:users,email,'.$id.',user_id',
             'phone' => 'required|string|regex:/^\d{10}$/|unique:users,phone', // Exactamente 10 dígitos
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $rules['password'] = 'string|min:8|confirmed';
+        }
+
+        $request->validate($rules);
 
         $user = User::findOrFail($id);
-        $user->update([
+
+        $data = [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'phone' => $request->phone,
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $user->update($data);
 
         return redirect()->route('crud.index')->with('success', 'Usuario actualizado correctamente.');
     }
-
 }

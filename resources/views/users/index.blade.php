@@ -562,15 +562,38 @@ body {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>2025-05-03</td>
-            <td>15:30</td>
-            <td>Carlos</td>
-            <td>Corte</td>
-            <td>Confirmada</td>
-            <td><button>Cancelar</button></td>
-          </tr>
+          @forelse($appointments as $appointment)
+            <tr>
+              <td>{{ $appointment->appointment_id }}</td>
+              <td>{{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('Y-m-d') }}</td>
+              <td>{{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('H:i') }}</td>
+              <td>
+                @php
+                  $barber = $barbers->firstWhere('user_id', $appointment->barber_id);
+                @endphp
+                {{ $barber ? $barber->first_name . ' ' . $barber->last_name : 'N/A' }}
+              </td>
+              <td>
+                @php
+                  $service = $services->firstWhere('service_id', $appointment->service_id);
+                @endphp
+                {{ $service ? $service->name : 'N/A' }}
+              </td>
+              <td>{{ $appointment->status }}</td>
+            
+              <td>
+                <form action="{{ route('appointment.destroy', $appointment->appointment_id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta cita?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="7">No tienes citas registradas.</td>
+            </tr>
+          @endforelse
         </tbody>
       </table>
     </section>
@@ -654,17 +677,18 @@ body {
   <p><strong>Fecha de Fin:</strong> 10/07/2025</p>
   <p><strong>Usos Máximos:</strong> 2 por familia</p>
 </div>
-
+    </section>
 <!-- Seccion de calificaciones de los barberos -->
  
     <section id="calificacion" class="hidden">
       <h2>Califica tu experiencia</h2>
-      <form id="form-calif" class="formulario-centrado">
-        <label for="idCita">ID de la Cita:</label>
-        <input type="number" id="idCita" name="idCita" required><br>
+      <form action="{{ route('score.store') }}" method="POST" id="form-calif" class="formulario-centrado">
+      @csrf
+      <label for="appointment_id">ID de la Cita:</label>
+        <input type="number" id="appointment_id" name="appointment_id" required><br>
     
-        <label for="puntuacion">Puntuación (1 a 5):</label>
-        <select type="numberr" id="puntuacion" name="puntuacion" required>
+        <label for="rating">Puntuación (1 a 5):</label>
+        <select id="rating" name="rating" required>
           <option value="">Selecciona</option>
           <option value="1">1 - Muy malo</option>
           <option value="2">2 - Malo</option>
@@ -673,8 +697,8 @@ body {
           <option value="5">5 - Excelente</option>
         </select><br>
     
-        <label for="comentario">Comentario:</label>
-        <textarea type="comentario" id="comentario" name="comentario" rows="4"></textarea><br>
+        <label for="comment">Comentario:</label>
+        <textarea id="comment" name="comment" rows="4"></textarea><br>
     
       
     

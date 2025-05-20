@@ -22,8 +22,17 @@ class BarberController extends Controller
 
     public function index(Request $request)
     {
-        $barber = auth()->user(); // Suponiendo que el barbero es un usuario autenticado
-        return view('barbers.index', compact('barber'));
+        $barber = auth()->user(); // O usa Auth::guard('barber')->user() si tienes guard separado
+        // Traer las citas donde el barbero es el actual
+        $appointments = \DB::table('appointments')
+            ->where('barber_id', $barber->user_id)
+            ->get();
+
+        // Trae todos los clientes y servicios
+        $clients = \DB::table('users')->get();
+        $services = \DB::table('services')->get();
+
+        return view('barbers.index', compact('barber', 'appointments', 'clients', 'services'));
     }
 
     /**

@@ -36,6 +36,7 @@
                     <th>Barbero Nombre</th>
                     <th>Servicio</th>
                     <th>Fecha y Hora</th>
+                    <th class="text-center">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,13 +54,20 @@
                         </td>
                         <td>{{ $appointment->service ? $appointment->service->name : 'N/A' }}</td>
                         <td>{{ $appointment->scheduled_at->format('d/m/Y H:i') }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('appointment.edit', $appointment->appointment_id) }}" class="btn btn-sm btn-warning">Editar</a>
+                            <form action="{{ route('appointment.destroy', $appointment->appointment_id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro de eliminar?')">Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">No hay citas registradas.</td>
+                        <td colspan="7" class="text-center">No hay citas registradas.</td>
                     </tr>
                 @endforelse
-            </tbody>
         </table>
     </div>
 

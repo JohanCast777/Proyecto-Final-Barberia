@@ -33,16 +33,20 @@ class ScoreController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'client_id' => 'required|exists:users,user_id',
-            'barber_id' => 'required|exists:barbers,barber_id',
+        $request->validate([
+            'appointment_id' => 'required|exists:appointments,appointment_id',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:255',
         ]);
 
-        Score::create($validated);
+        \DB::table('scores')->insert([
+            'appointment_id' => $request->appointment_id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+            'rated_at' => now(),
+        ]);
 
-        return redirect()->route('scores.index')->with('success', 'Score created successfully.');
+        return redirect()->back()->with('success', '¡Calificación registrada correctamente!');
     }
 
     /**
