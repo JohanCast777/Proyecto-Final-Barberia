@@ -387,7 +387,16 @@ body {
           @endphp
           {{ $service ? $service->name : 'N/A' }}
         </td>
-        <td>{{ $appointment->status }}</td>
+        <td>
+          @php
+            $estado = [
+              'pending' => 'Pendiente',
+              'completed' => 'Completada',
+              'cancelled' => 'Cancelada'
+            ][$appointment->status] ?? ucfirst($appointment->status);
+          @endphp
+          {{ $estado }}
+        </td>
       </tr>
       @empty
       <tr>
