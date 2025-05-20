@@ -305,10 +305,12 @@ body {
         <li><a href="#" onclick="mostrarSeccion('mis-citas')">Mi Agenda</a></li>
         <li><a href="#" onclick="mostrarSeccion('perfil')">Mi Perfil</a></li>
         <li><a href="#" onclick="mostrarSeccion('calificaciones')">Tus Calificaciones</a></li>
-        <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a></li>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        <li>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
             @csrf
-        </form>
+            <button type="submit" style="background:none;border:none;color:#fff;cursor:pointer;padding:0;">Cerrar Sesión</button>
+          </form>
+        </li>
       </ul>
     </nav>
   </header>
@@ -356,7 +358,7 @@ body {
       <option value="fecha">Fecha Específica</option>
     </select>
     <input type="date" id="fechaEspecifica" class="hidden">
-    <button id="botonFiltrar" type="button"> Filtrar</button>
+    <button id="botonFiltrar">Filtrar</button>
   </div>
   <table>
     <thead>
@@ -493,6 +495,23 @@ body {
   document.addEventListener('DOMContentLoaded', () => {
   const filtrarPorSelect = document.getElementById('filtrarPor');
   const fechaEspecificaInput = document.getElementById('fechaEspecifica');
+
+  // Mostrar/ocultar el input de fecha al cargar la página
+  if (filtrarPorSelect.value === 'fecha') {
+    fechaEspecificaInput.classList.remove('hidden');
+  } else {
+    fechaEspecificaInput.classList.add('hidden');
+  }
+
+  // Mostrar/ocultar el input de fecha al cambiar el select
+  filtrarPorSelect.addEventListener('change', () => {
+    if (filtrarPorSelect.value === 'fecha') {
+      fechaEspecificaInput.classList.remove('hidden');
+    } else {
+      fechaEspecificaInput.classList.add('hidden');
+    }
+  });
+
   const botonFiltrar = document.getElementById('botonFiltrar');
   const tablaCitasBody = document.getElementById('tablaCitasBody');
   const citasOriginales = Array.from(tablaCitasBody.rows).map(row => {
@@ -504,10 +523,6 @@ body {
       estado: row.cells[5].textContent.trim(),
       rowElement: row
     };
-  });
-
-  filtrarPorSelect.addEventListener('change', () => {
-    fechaEspecificaInput.classList.toggle('hidden', filtrarPorSelect.value !== 'fecha');
   });
 
   function aplicarFiltro() {

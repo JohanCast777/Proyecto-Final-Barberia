@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 
 use App\Livewire\Settings\Profile;
@@ -15,6 +16,9 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SignupController;
+use App\Http\Controllers\CrudController;
+use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\Settings\PasswordController;
 
 // Mostrar el formulario de login
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('main');
@@ -27,6 +31,7 @@ Route::post('/Signuppost', [SignupController::class, 'processSignup'])->name('si
 
 Route::resource('users', UserController::class)->names('user');
 Route::resource('barbers', BarberController::class)->names('barbers')->middleware('auth');
+Route::resource('admin', AdminController::class)->names('admin')->middleware('auth');
 Route::resource('services', ServiceController::class)->names('service');
 Route::resource('workhours', WorkHourController::class)->names('workhour');
 Route::resource('nonworkingdays', NonWorkingDayController::class)->names('nonworkingday');
@@ -34,7 +39,6 @@ Route::resource('appointments', AppointmentController::class)->names('appointmen
 Route::resource('payments', PaymentController::class)->names('payment');
 Route::resource('scores', ScoreController::class)->names('score');
 Route::resource('promotions', PromotionController::class)->names('promotion');
-Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
 // CRUDS
 Route::get('/crud', [App\Http\Controllers\CrudController::class, 'index'])->name('crud.index');
 Route::get('/crudBarberos', [App\Http\Controllers\CrudController::class, 'barbers'])->name('crud.barbers');

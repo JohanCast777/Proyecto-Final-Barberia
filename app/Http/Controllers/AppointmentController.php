@@ -104,16 +104,15 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
     }
 
-    
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         $appointment = Appointment::findOrFail($id);
-        $appointment->delete();
+        $appointment->status = 'cancelled';
+        $appointment->save();
 
-        return redirect()->route('appointments.index')->with('success', 'Cita eliminada correctamente.');
+        return redirect()->back()->with('success', 'La cita ha sido cancelada.');
     }
 }

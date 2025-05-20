@@ -213,6 +213,17 @@ class UserSeeder extends Seeder
         $user21->role = 'client';
         $user21->save();
 
+        $user22 = new User();
+        $user22->first_name = 'Martha';
+        $user22->last_name = 'Caicedo';
+        $user22->email = 'martha.caicedo90@example.com';
+        $user22->phone = '3450456985';
+        $user22->password = bcrypt('masdwrwrs12');
+        $user22->role = 'admin';
+        $user22->save();
+        
     }
 }
+
+
 
