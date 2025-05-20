@@ -302,7 +302,7 @@ body {
     <nav>
       <ul>
         <li><a href="#" onclick="mostrarSeccion('inicio')">Inicio</a></li>
-        <li><a href="#" onclick="mostrarSeccion('mis-citas')">Mis Agenda</a></li>
+        <li><a href="#" onclick="mostrarSeccion('mis-citas')">Mi Agenda</a></li>
         <li><a href="#" onclick="mostrarSeccion('perfil')">Mi Perfil</a></li>
         <li><a href="#" onclick="mostrarSeccion('calificaciones')">Tus Calificaciones</a></li>
         <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a></li>
@@ -436,38 +436,17 @@ body {
     <section id="calificaciones" class="hidden">
             <h2>Calificaciones de Clientes</h2>
             <div class="formulario-centrado">
-              <div>
-                
-                <!-- Tarjeta 1 -->
-                <div>
-                  <div>
-                    <h3>Carlos Perea</h3>
-                    <p>Calificación: ⭐ 4</p>
-                  </div>
-                  <a href="#" class="text-indigo-600 hover:underline">Ver más</a>
+              @forelse($scores as $score)
+                <div style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                  <h3>{{ $score->client_first_name }} {{ $score->client_last_name }}</h3>
+                  <p>Calificación: ⭐ {{ $score->rating }}</p>
+                  @if($score->comment)
+                    <p>Comentario: {{ $score->comment }}</p>
+                  @endif
                 </div>
-                
-                <!-- Tarjeta 2 -->
-                <div>
-                  <div>
-                    <h3>Camilo Gonzales</h3>
-                    <p>Calificación: ⭐ 4</p>
-                  </div>
-                  <a href="#" class="text-indigo-600 hover:underline">Ver más</a>
-                </div>
-          
-                <!-- Tarjeta 3 -->
-                <div >
-                  <div>
-                    <h3>Andrés Ramirez</h3>
-                    <p>Calificación: ⭐ 3</p>
-                  </div>
-                  <a href="#" class="text-indigo-600 hover:underline">Ver más</a>
-                </div>
-          
-                <!-- Puedes seguir agregando más barberos aquí -->
-          
-              </div>
+              @empty
+                <p>No tienes calificaciones aún.</p>
+              @endforelse
             </div>
           </section>
 

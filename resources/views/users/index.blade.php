@@ -579,7 +579,16 @@ body {
                 @endphp
                 {{ $service ? $service->name : 'N/A' }}
               </td>
-              <td>{{ $appointment->status }}</td>
+              <td>
+                @php
+                  $estado = [
+                    'pending' => 'Pendiente',
+                    'completed' => 'Completada',
+                    'cancelled' => 'Cancelada'
+                  ][$appointment->status] ?? ucfirst($appointment->status);
+                @endphp
+                {{ $estado }}
+              </td>
             
               <td>
                 <form action="{{ route('appointment.destroy', $appointment->appointment_id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar esta cita?');">

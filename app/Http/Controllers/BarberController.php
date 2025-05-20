@@ -32,7 +32,16 @@ class BarberController extends Controller
         $clients = \DB::table('users')->get();
         $services = \DB::table('services')->get();
 
-        return view('barbers.index', compact('barber', 'appointments', 'clients', 'services'));
+            // Traer calificaciones del barbero logueado
+   
+        $scores = \DB::table('scores')
+        ->join('appointments', 'scores.appointment_id', '=', 'appointments.appointment_id')
+        ->join('users', 'appointments.client_id', '=', 'users.user_id')
+        ->where('appointments.barber_id', $barber->user_id)
+        ->select('scores.*', 'users.first_name as client_first_name', 'users.last_name as client_last_name')
+        ->get();
+
+        return view('barbers.index', compact('barber', 'appointments', 'clients', 'services', 'scores'));
     }
 
     /**

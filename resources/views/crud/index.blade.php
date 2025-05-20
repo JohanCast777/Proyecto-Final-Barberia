@@ -147,18 +147,30 @@
           <div class="mb-3">
             <label for="edit_first_name" class="form-label">Nombre</label>
             <input type="text" name="first_name" id="edit_first_name" class="form-control" required>
+            @error('first_name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
           </div>
           <div class="mb-3">
             <label for="edit_last_name" class="form-label">Apellido</label>
             <input type="text" name="last_name" id="edit_last_name" class="form-control" required>
+            @error('last_name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
           </div>
           <div class="mb-3">
             <label for="edit_email" class="form-label">Correo</label>
             <input type="email" name="email" id="edit_email" class="form-control" required>
+            @error('email')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
           </div>
           <div class="mb-3">
             <label for="edit_phone" class="form-label">Teléfono</label>
             <input type="text" name="phone" id="edit_phone" class="form-control" required>
+            @error('phone')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
           </div>
         </div>
         <div class="modal-footer">
@@ -204,6 +216,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (userInput) {
             userInput.parentNode.removeChild(userInput);
         }
+    });
+
+    // Add event listener to form submit to log and prevent default for debugging
+    var form = document.getElementById('editarVoluntarioForm');
+    form.addEventListener('submit', function(event) {
+        console.log('Edit form submitted');
+        // Uncomment next line to prevent actual submission for debugging
+        // event.preventDefault();
     });
 });
 </script>
